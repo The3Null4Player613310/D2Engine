@@ -1,42 +1,48 @@
 package com.thenullplayer.d2engine;
 
+import java.net.InetAddress;
+
 public class Main
 {
-	public final int port = 8888;
-	public final InetAddress localHost = InetAddress.getLocalHost();
+	public final static int PORT = 8888;
 
-	public boolean isRunnning = true;
+	public boolean isRunning = true;
 
 	public Client client;
 	public Server server;
 
-	public Main(InetAddress ipIn)
+
+	public Main()
 	{
-		if(ipIn == localHost)
+	}
+
+	public Main(boolean isServer)
+	{
+		if(isServer)
 		{
 			server = new Server();
-			server.init();
+			server.init(PORT);
 		}
-		
-		client = new Client();
-		client.init(ipIn);
-		
+		else
+		{
+			client = new Client();
+			client.init();
+		}
 		while(isRunning){};
 	}
 
 	public static void main(String[] args)
 	{
+		boolean isServer = false;
 		for(int i=0; i<args.length; i++)
 		{
 			if(args[i] == "-S")
 			{
-			}
-			else if(args[i] == "-H")
-			{
+				isServer = true;
 			}
 		}
 
 		System.out.println("");
-		new Main();
+		new Main(isServer);
 	}
 }
