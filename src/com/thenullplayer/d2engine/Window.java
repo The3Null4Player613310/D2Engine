@@ -1,5 +1,6 @@
 package com.thenullplayer.d2engine;
 
+import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
@@ -10,6 +11,7 @@ public class Window extends JFrame
 	private final int WIDTH = 500; 
 	private final int HEIGHT = 500;
 	private final String TITLE = "D2Engine";
+	private final Dimension SIZE = new Dimension(WIDTH, HEIGHT);
 	
 	private Client client;
 	private Menu mainMenu;
@@ -30,13 +32,18 @@ public class Window extends JFrame
 
 
 		mainMenu = new MenuMain();
+		mainMenu.setMinimumSize(SIZE);
+		mainMenu.setPreferredSize(SIZE);
 		this.add(mainMenu);
 		mainMenu.show();
 
 		pauseMenu = new MenuPause();
+		pauseMenu.setMinimumSize(SIZE);
+		pauseMenu.setPreferredSize(SIZE);
 		this.add(pauseMenu);
 		pauseMenu.hide();
 
+		this.pack();
 		this.setVisible(true);
 	}
 

@@ -1,6 +1,9 @@
 package com.thenullplayer.d2engine;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import javax.swing.JPanel;
+import javax.swing.SpringLayout;
 
 public class Menu extends JPanel
 {
@@ -10,6 +13,8 @@ public class Menu extends JPanel
 	{
 		super();
 		isVisible = false;
+
+		this.setLayout(new SpringLayout());
 	}
 
 	public void hide()
@@ -40,5 +45,12 @@ public class Menu extends JPanel
 		{
 			show();
 		}
+	}
+
+	@Override
+	public void paint(Graphics g)
+	{
+		super.paint(g);
+		g.setColor(Color.RED);
 	}
 }
