@@ -15,4 +15,4 @@ run:
 
 
 clean:
-	rm -rf ./out/com/thenullplayer/d2engine/
+	rm -rf ./out/com/thenullplayer/d2engine/;

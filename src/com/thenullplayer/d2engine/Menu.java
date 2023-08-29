@@ -17,33 +17,33 @@ public class Menu extends JPanel
 		this.setLayout(new SpringLayout());
 	}
 
-	public void hide()
+	public void hideMenu()
 	{
 		if(isVisible)
 		{
 			isVisible = false;
-			setVisible(isVisible);
+			this.setVisible(isVisible);
 		}
 	}
 
-	public void show()
+	public void showMenu()
 	{
 		if(!isVisible)
 		{
 			isVisible = true;
-			setVisible(isVisible);
+			this.setVisible(isVisible);
 		}
 	}
 
-	public void toggle()
+	public void toggleMenu()
 	{
 		if(isVisible)
 		{
-			hide();
+			hideMenu();
 		}
 		else
 		{
-			show();
+			showMenu();
 		}
 	}
 

@@ -7,10 +7,13 @@ public class Client extends Thread
 	private volatile boolean isRunning;
 
 	private Window window;
+	private Keyboard keyboard;
 
 	public Client()
 	{
 		window = new Window();
+		keyboard = new Keyboard();
+		window.addKeyListener(keyboard);
 	}
 
 	public void init()
@@ -28,8 +31,23 @@ public class Client extends Thread
 		}
 	}
 
+	public void pause()
+	{
+	}
+
 	public void quit()
 	{
 		isRunning = false;
+	}
+
+	class KeyListener implements Keyboard.KeyboardListener
+	{
+		public void keyDown(int keyIn)
+		{
+		}
+
+		public void keyUp(int keyIn)
+		{
+		}
 	}
 }

@@ -1,6 +1,7 @@
 package com.thenullplayer.d2engine;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
@@ -14,6 +15,7 @@ public class Window extends JFrame
 	private final Dimension SIZE = new Dimension(WIDTH, HEIGHT);
 	
 	private Client client;
+	private Screen screen;
 	private Menu mainMenu;
 	private Menu pauseMenu;
 
@@ -25,23 +27,29 @@ public class Window extends JFrame
 	public void init(Client clientIn)
 	{
 		client = clientIn;
+		
 		this.setTitle(TITLE);
 		this.setSize(WIDTH, HEIGHT);
+		this.setLayout(new FlowLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.addWindowListener(new CloseAdapter());
-
 
 		mainMenu = new MenuMain();
 		mainMenu.setMinimumSize(SIZE);
 		mainMenu.setPreferredSize(SIZE);
 		this.add(mainMenu);
-		mainMenu.show();
+		mainMenu.showMenu();
 
 		pauseMenu = new MenuPause();
 		pauseMenu.setMinimumSize(SIZE);
 		pauseMenu.setPreferredSize(SIZE);
 		this.add(pauseMenu);
-		pauseMenu.hide();
+		pauseMenu.hideMenu();
+
+		screen = new Screen();
+		screen.setMinimumSize(SIZE);
+		screen.setPreferredSize(SIZE);
+		this.add(screen);
 
 		this.pack();
 		this.setVisible(true);
