@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 
-public class Server extends Thread
+public class Server extends Thread implements Context
 {
 	private final int TIMEOUT = 4000;
 
@@ -16,6 +16,11 @@ public class Server extends Thread
 
 	public Server()
 	{
+	}
+
+	public int getContext()
+	{
+		return Context.SERVER;
 	}
 
 	public void init(int portIn)

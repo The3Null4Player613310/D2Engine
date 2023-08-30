@@ -1,5 +1,7 @@
 package com.thenullplayer.d2engine;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -8,9 +10,11 @@ public class MenuMain extends Menu
 {
 	JButton startButton;
 
-	public MenuMain()
+	public MenuMain(Window windowIn)
 	{
-		super();
+		super(windowIn);
+
+		this.setBackground(Color.red);
 
 		startButton = new JButton();
 		startButton.addActionListener(new ClickListener(this));
@@ -31,6 +35,7 @@ public class MenuMain extends Menu
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
 			menu.hideMenu();
+			menu.window.showScreen();
 		}
 	}
 }

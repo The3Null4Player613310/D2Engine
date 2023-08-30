@@ -1,4 +1,5 @@
 src/com/thenullplayer/d2engine/Main.java
+src/com/thenullplayer/d2engine/Context.java
 src/com/thenullplayer/d2engine/Client.java
 src/com/thenullplayer/d2engine/Keyboard.java
 src/com/thenullplayer/d2engine/Window.java
@@ -6,4 +7,5 @@ src/com/thenullplayer/d2engine/Menu.java
 src/com/thenullplayer/d2engine/MenuMain.java
 src/com/thenullplayer/d2engine/MenuPause.java
 src/com/thenullplayer/d2engine/Screen.java
+src/com/thenullplayer/d2engine/Sprite.java
 src/com/thenullplayer/d2engine/Server.java

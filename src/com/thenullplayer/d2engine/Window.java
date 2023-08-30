@@ -12,7 +12,7 @@ public class Window extends JFrame
 	private final int WIDTH = 500; 
 	private final int HEIGHT = 500;
 	private final String TITLE = "D2Engine";
-	private final Dimension SIZE = new Dimension(WIDTH, HEIGHT);
+	public final Dimension SIZE = new Dimension(WIDTH, HEIGHT);
 	
 	private Client client;
 	private Screen screen;
@@ -30,36 +30,45 @@ public class Window extends JFrame
 		
 		this.setTitle(TITLE);
 		this.setSize(WIDTH, HEIGHT);
+		this.setResizable(false);
 		this.setLayout(new FlowLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.addWindowListener(new CloseAdapter());
 
-		mainMenu = new MenuMain();
-		mainMenu.setMinimumSize(SIZE);
-		mainMenu.setPreferredSize(SIZE);
+		mainMenu = new MenuMain(this);
 		this.add(mainMenu);
 		mainMenu.showMenu();
 
-		pauseMenu = new MenuPause();
-		pauseMenu.setMinimumSize(SIZE);
-		pauseMenu.setPreferredSize(SIZE);
+		pauseMenu = new MenuPause(this);
 		this.add(pauseMenu);
-		pauseMenu.hideMenu();
 
-		screen = new Screen();
-		screen.setMinimumSize(SIZE);
-		screen.setPreferredSize(SIZE);
+		screen = new Screen(SIZE);
 		this.add(screen);
 
 		this.pack();
 		this.setVisible(true);
 	}
 
+	public void showMain()
+	{
+		mainMenu.showMenu();
+	}
+
+	public void showScreen()
+	{
+		screen.showScreen();
+	}
+
+	public void showPause()
+	{
+		screen.hideScreen();
+		pauseMenu.showMenu();
+	}
+
 	public void quit()
 	{
 		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
-
 
 	private class CloseAdapter extends WindowAdapter
 	{

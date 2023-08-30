@@ -2,7 +2,7 @@ package com.thenullplayer.d2engine;
 
 import java.net.InetAddress;
 
-public class Client extends Thread
+public class Client extends Thread implements Context
 {
 	private volatile boolean isRunning;
 
@@ -14,6 +14,11 @@ public class Client extends Thread
 		window = new Window();
 		keyboard = new Keyboard();
 		window.addKeyListener(keyboard);
+	}
+
+	public int getContext()
+	{
+		return Context.CLIENT;
 	}
 
 	public void init()

@@ -1,9 +1,14 @@
 package com.thenullplayer.d2engine;
 
+import java.awt.Color;
+import java.awt.Dimension;
+
 public class MenuPause extends Menu
 {
-	public MenuPause()
+	public MenuPause(Window windowIn)
 	{
-		super();
+		super(windowIn);
+
+		this.setBackground(Color.green);
 	}
 }
