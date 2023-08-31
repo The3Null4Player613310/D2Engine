@@ -12,10 +12,11 @@ public class Server extends Thread implements Context
 	private volatile boolean isRunning;
 
 	private volatile ServerSocket server;
-	private volatile ArrayList<Connection> clientList;
+	private volatile ConnectionManager connectionManager;
 
 	public Server()
 	{
+		connectionManager = ConnectionManager.getInstance();
 	}
 
 	public int getContext()
@@ -26,7 +27,6 @@ public class Server extends Thread implements Context
 	public void init(int portIn)
 	{
 		isRunning = true;
-		clientList = new ArrayList<>();
 
 		boolean isReady = false;
 		while(!isReady)
@@ -59,16 +59,14 @@ public class Server extends Thread implements Context
 			try
 			{
 				Socket socket = server.accept();
-				clientList.add(new Connection(socket));
+				connectionManager.create(socket);
 			}
 			catch(Exception e){}
+
 		}
-		
-		for(int i=0; i<clientList.size(); i++)
-		{
-			clientList.get(i).close();
-		}
-		
+
+		connectionManager.close();
+				
 		try
 		{
 			server.close();
@@ -78,24 +76,5 @@ public class Server extends Thread implements Context
 	public void quit()
 	{
 		isRunning = false;
-	}
-
-	private class Connection
-	{
-		int id;
-		Socket socket;
-
-		public Connection(Socket socketIn)
-		{
-			socket = socketIn;
-		}
-
-		public void close()
-		{
-			try
-			{
-				socket.close();
-			}catch(IOException e){}
-		}
 	}
 }

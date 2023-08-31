@@ -9,6 +9,8 @@ import javax.swing.JButton;
 public class MenuMain extends Menu
 {
 	JButton startButton;
+	JButton spButton;
+	JButton mpButton;
 
 	public MenuMain(Window windowIn)
 	{
@@ -20,6 +22,15 @@ public class MenuMain extends Menu
 		startButton.addActionListener(new ClickListener(this));
 		startButton.setText("Start");
 		this.add(startButton);
+
+
+		spButton = new JButton();
+		spButton.setText("Single-Player");
+		this.add(spButton);
+
+		mpButton = new JButton();
+		mpButton.setText("Multi-Player");
+		this.add(mpButton);
 	}
 
 	private class ClickListener implements ActionListener

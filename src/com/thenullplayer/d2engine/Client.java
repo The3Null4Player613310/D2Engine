@@ -5,6 +5,7 @@ import java.net.InetAddress;
 public class Client extends Thread implements Context
 {
 	private volatile boolean isRunning;
+	private volatile boolean isConnected;
 
 	private Window window;
 	private Keyboard keyboard;
@@ -34,6 +35,10 @@ public class Client extends Thread implements Context
 		{
 			
 		}
+	}
+
+	public void connect(InetAddress ip)
+	{
 	}
 
 	public void pause()
