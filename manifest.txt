@@ -7,6 +7,7 @@ src/com/thenullplayer/d2engine/Keyboard.java
 src/com/thenullplayer/d2engine/Window.java
 src/com/thenullplayer/d2engine/Menu.java
 src/com/thenullplayer/d2engine/MenuMain.java
+src/com/thenullplayer/d2engine/MenuOption.java
 src/com/thenullplayer/d2engine/MenuPause.java
 src/com/thenullplayer/d2engine/Screen.java
 src/com/thenullplayer/d2engine/Sprite.java

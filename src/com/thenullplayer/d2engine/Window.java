@@ -18,6 +18,7 @@ public class Window extends JFrame
 	private Screen screen;
 	private Menu mainMenu;
 	private Menu pauseMenu;
+	private Menu optionMenu;
 
 	public Window()
 	{
@@ -35,6 +36,9 @@ public class Window extends JFrame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.addWindowListener(new CloseAdapter());
 
+		screen = new Screen(SIZE);
+		this.add(screen);
+
 		mainMenu = new MenuMain(this);
 		this.add(mainMenu);
 		mainMenu.showMenu();
@@ -42,27 +46,43 @@ public class Window extends JFrame
 		pauseMenu = new MenuPause(this);
 		this.add(pauseMenu);
 
-		screen = new Screen(SIZE);
-		this.add(screen);
+		optionMenu = new MenuOption(this);
+		this.add(optionMenu);
 
 		this.pack();
 		this.setVisible(true);
 	}
 
+	private void hideMenus()
+	{
+		mainMenu.hideMenu();
+		pauseMenu.hideMenu();
+		optionMenu.hideMenu();
+		screen.hideScreen();
+	}
+
 	public void showMain()
 	{
+		hideMenus();
 		mainMenu.showMenu();
 	}
 
 	public void showScreen()
 	{
+		hideMenus();
 		screen.showScreen();
 	}
 
 	public void showPause()
 	{
-		screen.hideScreen();
+		hideMenus();
 		pauseMenu.showMenu();
+	}
+
+	public void showOptions()
+	{
+		hideMenus();
+		optionMenu.showMenu();
 	}
 
 	public void quit()

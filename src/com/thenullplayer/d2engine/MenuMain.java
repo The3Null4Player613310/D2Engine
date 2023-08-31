@@ -11,33 +11,40 @@ public class MenuMain extends Menu
 	JButton startButton;
 	JButton spButton;
 	JButton mpButton;
+	JButton opButton;
 
 	public MenuMain(Window windowIn)
 	{
 		super(windowIn);
 
-		this.setBackground(Color.red);
+		this.setBackground(Color.blue);
 
 		startButton = new JButton();
-		startButton.addActionListener(new ClickListener(this));
+		startButton.addActionListener(new StartListener(this));
 		startButton.setText("Start");
 		this.add(startButton);
 
-
 		spButton = new JButton();
+		spButton.addActionListener(new SPListener(this));
 		spButton.setText("Single-Player");
 		this.add(spButton);
 
 		mpButton = new JButton();
+		mpButton.addActionListener(new MPListener(this));
 		mpButton.setText("Multi-Player");
 		this.add(mpButton);
+
+		opButton = new JButton();
+		opButton.addActionListener(new OPListener(this));
+		opButton.setText("Options");
+		this.add(opButton);
 	}
 
-	private class ClickListener implements ActionListener
+	private class StartListener implements ActionListener
 	{
 		Menu menu;
 
-		ClickListener(Menu menuIn)
+		StartListener(Menu menuIn)
 		{
 			menu = menuIn;
 		}
@@ -47,6 +54,57 @@ public class MenuMain extends Menu
 		{
 			menu.hideMenu();
 			menu.window.showScreen();
+		}
+	}
+
+	private class SPListener implements ActionListener
+	{
+		Menu menu;
+
+		SPListener(Menu menuIn)
+		{
+			menu = menuIn;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent actionEventIn)
+		{
+			menu.hideMenu();
+			menu.window.showScreen();
+		}
+	}
+
+	private class MPListener implements ActionListener
+	{
+		Menu menu;
+
+		MPListener(Menu menuIn)
+		{
+			menu = menuIn;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent actionEventIn)
+		{
+			menu.hideMenu();
+			menu.window.showScreen();
+		}
+	}
+
+	private class OPListener implements ActionListener
+	{
+		Menu menu;
+
+		OPListener(Menu menuIn)
+		{
+			menu = menuIn;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent actionEventIn)
+		{
+			menu.hideMenu();
+			menu.window.showOptions();
 		}
 	}
 }
