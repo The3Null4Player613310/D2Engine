@@ -22,7 +22,7 @@ public class Menu extends JPanel
 
 		this.hideMenu();
 		this.setPreferredSize(window.SIZE);
-		this.setMinimumSize(window.SIZE);
+		//this.setMinimumSize(window.SIZE);
 
 		layout = new SpringLayout();
 
@@ -44,6 +44,8 @@ public class Menu extends JPanel
 		{
 			isVisible = true;
 			this.setVisible(isVisible);
+			this.repaint();
+			this.requestFocusInWindow();
 		}
 	}
 

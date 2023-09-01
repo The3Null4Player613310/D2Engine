@@ -103,7 +103,6 @@ public class MenuMain extends Menu
 		@Override
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
-			menu.hideMenu();
 			menu.window.showOptions();
 		}
 	}

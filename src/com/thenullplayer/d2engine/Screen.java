@@ -1,5 +1,6 @@
 package com.thenullplayer.d2engine;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
@@ -14,9 +15,11 @@ public class Screen extends JPanel
 	{
 		super();
 
+
 		hideScreen();
-		setMinimumSize(sizeIn);
-		setPreferredSize(sizeIn);
+		this.setBackground(Color.gray);
+		this.setPreferredSize(sizeIn);
+		this.setMinimumSize(sizeIn);
 		
 		for(int i=0; i<8; i++)
 			sprite[i] = new Sprite();
@@ -39,6 +42,8 @@ public class Screen extends JPanel
 			isVisible = true;
 			setVisible(isVisible);
 		}
+		repaint();
+		requestFocusInWindow();
 	}
 
 	@Override

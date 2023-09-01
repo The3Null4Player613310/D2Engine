@@ -30,7 +30,8 @@ public class MenuOption extends Menu
 		@Override
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
-			menu.window.showMain();
+			menu.hideMenu();
+			//menu.window.showMain();
 		}
 	}
 }

@@ -12,8 +12,9 @@ public class Client extends Thread implements Context
 
 	public Client()
 	{
-		window = new Window();
+		window = new Window(this);
 		keyboard = new Keyboard();
+		keyboard.setListener(new KeyListener());
 		window.addKeyListener(keyboard);
 	}
 
@@ -25,7 +26,7 @@ public class Client extends Thread implements Context
 	public void init()
 	{
 		isRunning = true;
-		window.init(this);
+		window.init();
 		this.start();
 	}
 
@@ -54,6 +55,15 @@ public class Client extends Thread implements Context
 	{
 		public void keyDown(int keyIn)
 		{
+			System.out.println("FOO");
+			switch(keyIn)
+			{
+				case Keyboard.KEY_Q:
+					window.showPause();
+					break;
+				default:
+					break;
+			}
 		}
 
 		public void keyUp(int keyIn)

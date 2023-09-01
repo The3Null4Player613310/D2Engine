@@ -38,7 +38,7 @@ public class Keyboard extends KeyAdapter
 	{
 		if(listener != null)
 		{
-			listener.keyDown(eIn.getKeyCode());
+			listener.keyUp(eIn.getKeyCode());
 		}
 	}
 
@@ -46,7 +46,6 @@ public class Keyboard extends KeyAdapter
 	{
 
 		public void keyDown(int keyIn);
-
 		public void keyUp(int keyIn);
 	}
 }
