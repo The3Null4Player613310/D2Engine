@@ -16,7 +16,19 @@ public class MenuPause extends Menu
 	{
 		super(windowIn);
 
-		this.setBackground(Color.green);
+		init();
+	}
+
+	public MenuPause(Window windowIn, Menu branchIn)
+	{
+		super(windowIn, branchIn);
+
+		init();
+	}
+
+	private void init()
+	{
+		this.setBackground(Color.darkGray);
 		
 		continueButton = new JButton();
 		continueButton.addActionListener(new ContinueListener(this));
@@ -46,7 +58,7 @@ public class MenuPause extends Menu
 		@Override
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
-			menu.hideMenu();
+			menu.closeMenu();
 			menu.window.showScreen();
 		}
 
@@ -64,8 +76,7 @@ public class MenuPause extends Menu
 		@Override
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
-			//menu.hideMenu();
-			menu.window.showOptions();
+			new MenuOption(menu.window, menu);
 		}
 	}
 
@@ -81,9 +92,9 @@ public class MenuPause extends Menu
 		@Override
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
-			menu.hideMenu();
+			menu.closeMenu();
 			menu.window.hideScreen();
-			menu.window.showMain();
+			new MenuMain(menu.window);
 		}
 	}
 }

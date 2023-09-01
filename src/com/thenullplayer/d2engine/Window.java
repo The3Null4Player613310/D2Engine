@@ -41,15 +41,15 @@ public class Window extends JFrame
 		this.addWindowListener(new CloseAdapter());
 
 
-		optionMenu = new MenuOption(this);
-		this.add(optionMenu);
+		//optionMenu = new MenuOption(this);
+		//this.add(optionMenu);
 
 		mainMenu = new MenuMain(this);
-		this.add(mainMenu);
-		mainMenu.showMenu();
+		//this.add(mainMenu);
+		//mainMenu.showMenu();
 
-		pauseMenu = new MenuPause(this);
-		this.add(pauseMenu);
+		//pauseMenu = new MenuPause(this);
+		//this.add(pauseMenu);
 
 		screen = new Screen(SIZE);
 		this.add(screen);
@@ -60,28 +60,6 @@ public class Window extends JFrame
 	{
 		this.pack();
 		this.setVisible(true);
-	}
-
-	private void hideMenus()
-	{
-		mainMenu.hideMenu();
-		pauseMenu.hideMenu();
-		optionMenu.hideMenu();
-	}
-
-	public void showMain()
-	{
-		mainMenu.showMenu();
-	}
-
-	public void showPause()
-	{
-		pauseMenu.showMenu();
-	}
-
-	public void showOptions()
-	{
-		optionMenu.showMenu();
 	}
 
 	public void hideScreen()
@@ -108,11 +86,8 @@ public class Window extends JFrame
 		screen.addKeyListener(listenerIn);
 	}
 
-	@Override
-	public Component add(Component componentIn)
+	private void position(Component componentIn)
 	{
-		super.add(componentIn);
-		
 		if(componentIn instanceof Menu)
 		{
 			layout.putConstraint(SpringLayout.NORTH, componentIn, 50, SpringLayout.NORTH, this);
@@ -127,7 +102,21 @@ public class Window extends JFrame
 			layout.putConstraint(SpringLayout.SOUTH, componentIn, 0, SpringLayout.SOUTH, this);
 			layout.putConstraint(SpringLayout.WEST, componentIn, 0, SpringLayout.WEST, this);
 		}
+	}
 
+	@Override
+	public Component add(Component componentIn)
+	{
+		super.add(componentIn);
+		position(componentIn);
+		return componentIn;
+	}
+
+	@Override
+	public Component add(Component componentIn, int indexIn)
+	{
+		super.add(componentIn, indexIn);
+		position(componentIn);
 		return componentIn;
 	}
 

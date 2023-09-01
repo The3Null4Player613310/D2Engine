@@ -11,6 +11,7 @@ public class Menu extends JPanel
 {
 	private boolean isVisible = true;
 	public final Window window;
+	private Menu branch;
 	
 	private SpringLayout layout;
 
@@ -27,6 +28,19 @@ public class Menu extends JPanel
 		layout = new SpringLayout();
 
 		this.setLayout(layout);
+
+		window.add(this, 0);
+
+		this.showMenu();
+	}
+
+	public Menu(Window windowIn, Menu branchIn)
+	{
+		this(windowIn);
+	
+		branch = branchIn;
+
+		branch.hideMenu();
 	}
 
 	public void hideMenu()
@@ -61,6 +75,12 @@ public class Menu extends JPanel
 		}
 	}
 
+	public void closeMenu()
+	{
+		if(branch != null)
+			branch.showMenu();
+		window.remove(this);
+	}
 
 	Component lastComponent;
 	@Override
@@ -70,7 +90,7 @@ public class Menu extends JPanel
 
 		if(lastComponent == null)
 		{
-			layout.putConstraint(SpringLayout.NORTH, componentIn, 200, SpringLayout.NORTH, this);
+			layout.putConstraint(SpringLayout.NORTH, componentIn, 100, SpringLayout.NORTH, this);
 		}
 		else
 		{

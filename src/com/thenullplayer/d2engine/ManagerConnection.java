@@ -6,23 +6,23 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ConnectionManager extends Thread implements Manager
+public class ManagerConnection extends Thread implements Manager
 {
-	private static volatile ConnectionManager manager;
+	private static volatile ManagerConnection manager;
 
 	private volatile boolean isRunning;
 	private volatile ArrayList<Connection> clientList;
 
-	private ConnectionManager()
+	private ManagerConnection()
 	{
 		clientList = new ArrayList<>();
 		start();
 	}
 
-	public static ConnectionManager getInstance()
+	public static ManagerConnection getInstance()
 	{
 		if(manager == null)
-			manager = new ConnectionManager();
+			manager = new ManagerConnection();
 		return manager;			
 	}
 

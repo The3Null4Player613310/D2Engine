@@ -8,7 +8,6 @@ import javax.swing.JButton;
 
 public class MenuMain extends Menu
 {
-	JButton startButton;
 	JButton spButton;
 	JButton mpButton;
 	JButton opButton;
@@ -18,11 +17,6 @@ public class MenuMain extends Menu
 		super(windowIn);
 
 		this.setBackground(Color.blue);
-
-		startButton = new JButton();
-		startButton.addActionListener(new StartListener(this));
-		startButton.setText("Start");
-		this.add(startButton);
 
 		spButton = new JButton();
 		spButton.addActionListener(new SPListener(this));
@@ -40,23 +34,6 @@ public class MenuMain extends Menu
 		this.add(opButton);
 	}
 
-	private class StartListener implements ActionListener
-	{
-		Menu menu;
-
-		StartListener(Menu menuIn)
-		{
-			menu = menuIn;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent actionEventIn)
-		{
-			menu.hideMenu();
-			menu.window.showScreen();
-		}
-	}
-
 	private class SPListener implements ActionListener
 	{
 		Menu menu;
@@ -69,7 +46,7 @@ public class MenuMain extends Menu
 		@Override
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
-			menu.hideMenu();
+			menu.closeMenu();
 			menu.window.showScreen();
 		}
 	}
@@ -86,7 +63,7 @@ public class MenuMain extends Menu
 		@Override
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
-			menu.hideMenu();
+			menu.closeMenu();
 			menu.window.showScreen();
 		}
 	}
@@ -103,7 +80,7 @@ public class MenuMain extends Menu
 		@Override
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
-			menu.window.showOptions();
+			new MenuOption(menu.window, menu);
 		}
 	}
 }

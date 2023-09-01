@@ -12,11 +12,11 @@ public class Server extends Thread implements Context
 	private volatile boolean isRunning;
 
 	private volatile ServerSocket server;
-	private volatile ConnectionManager connectionManager;
+	private volatile ManagerConnection connectionManager;
 
 	public Server()
 	{
-		connectionManager = ConnectionManager.getInstance();
+		connectionManager = ManagerConnection.getInstance();
 	}
 
 	public int getContext()

@@ -1,5 +1,6 @@
 package com.thenullplayer.d2engine;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -11,6 +12,20 @@ public class MenuOption extends Menu
 	public MenuOption(Window windowIn)
 	{
 		super(windowIn);
+
+		this.init();
+	}
+
+	public MenuOption(Window windowIn, Menu branchIn)
+	{
+		super(windowIn, branchIn);
+
+		this.init();
+	}
+
+	private void init()
+	{
+		this.setBackground(Color.darkGray);
 
 		exitButton = new JButton();
 		exitButton.addActionListener(new ExitListener(this));
@@ -30,8 +45,7 @@ public class MenuOption extends Menu
 		@Override
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
-			menu.hideMenu();
-			//menu.window.showMain();
+			menu.closeMenu();
 		}
 	}
 }

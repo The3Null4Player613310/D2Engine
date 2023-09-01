@@ -7,22 +7,31 @@ public class Sprite
 {
 	public final int SIZE = 16;
 	public final int SCALE = 4;
+	public final Color BG_COLOR = new Color(0,0,0,0);
 
 	private int x=0;
 	private int y=0;
 
-	private Color[][] sprite = new Color[16][16];
-
+	private Color[] pallet = new Color[4];
+	private byte[][] sprite = new byte[SIZE][SIZE]; 
+	
 	public Sprite()
 	{
+		pallet[0] = BG_COLOR;
+		
+		for(int i=1; i<pallet.length; i++)
+		{
+			int r = (int) Math.floor(Math.random()*256);
+			int g = (int) Math.floor(Math.random()*256);
+			int b = (int) Math.floor(Math.random()*256);
+			pallet[i] = new Color(r, g, b);
+		}
+
 		for(int i=0; i<SIZE; i++)
 		{
 			for(int j=0; j<SIZE; j++)
 			{
-				int r = (int) Math.floor(Math.random()*256);
-				int g = (int) Math.floor(Math.random()*256);
-				int b = (int) Math.floor(Math.random()*256);
-				sprite[j][i] = new Color(r, g, b);
+				sprite[i][j] = (byte) (Math.random() * 4);
 			}
 		}
 	}
@@ -42,7 +51,7 @@ public class Sprite
 				int sx = j * SCALE;
 				int sy = i * SCALE;
 
-				gIn.setColor(sprite[i][j]);
+				gIn.setColor(pallet[sprite[i][j]]);
 				gIn.fillRect(x+sx, y+sy, SCALE, SCALE);
 			}
 		}

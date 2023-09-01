@@ -5,6 +5,8 @@ import java.awt.event.KeyEvent;
 
 public class Keyboard extends KeyAdapter
 {
+	final static int KEY_ESC = KeyEvent.VK_ESCAPE;
+
 	final static int KEY_W = KeyEvent.VK_W;
 	final static int KEY_S = KeyEvent.VK_S;
 	final static int KEY_A = KeyEvent.VK_A;

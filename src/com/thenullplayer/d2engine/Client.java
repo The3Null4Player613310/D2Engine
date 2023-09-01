@@ -7,11 +7,14 @@ public class Client extends Thread implements Context
 	private volatile boolean isRunning;
 	private volatile boolean isConnected;
 
+	private ManagerEntity entityManager;
 	private Window window;
 	private Keyboard keyboard;
 
 	public Client()
 	{
+		entityManager = ManagerEntity.getInstance();
+	
 		window = new Window(this);
 		keyboard = new Keyboard();
 		keyboard.setListener(new KeyListener());
@@ -55,19 +58,31 @@ public class Client extends Thread implements Context
 	{
 		public void keyDown(int keyIn)
 		{
-			System.out.println("FOO");
 			switch(keyIn)
 			{
-				case Keyboard.KEY_Q:
-					window.showPause();
+				case Keyboard.KEY_W:
+				case Keyboard.KEY_S:
+				case Keyboard.KEY_A:
+				case Keyboard.KEY_D:
+					window.repaint();
+					break;
+				case Keyboard.KEY_ESC:
+					new MenuPause(window);
 					break;
 				default:
+					System.out.println("" + keyIn + "DOWN");
 					break;
 			}
 		}
 
 		public void keyUp(int keyIn)
 		{
+			switch(keyIn)
+			{
+				default:
+					System.out.println("" + keyIn + "UP");
+					break;
+			}
 		}
 	}
 }
