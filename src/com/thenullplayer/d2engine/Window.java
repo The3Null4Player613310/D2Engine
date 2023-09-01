@@ -73,6 +73,11 @@ public class Window extends JFrame
 		screen.showScreen();
 	}
 
+	public void play()
+	{
+		showScreen();
+		client.play();
+	}
 
 	public void quit()
 	{

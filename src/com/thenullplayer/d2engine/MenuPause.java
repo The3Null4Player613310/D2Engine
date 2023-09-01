@@ -59,7 +59,7 @@ public class MenuPause extends Menu
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
 			menu.closeMenu();
-			menu.window.showScreen();
+			menu.window.play();
 		}
 
 	}

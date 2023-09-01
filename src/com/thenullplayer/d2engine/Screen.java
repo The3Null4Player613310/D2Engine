@@ -75,7 +75,7 @@ public class Screen extends JPanel
 		{
 			if(sprite[i] != null)
 			{
-				sprite[i].setPos((int) (Math.random()*400), (int) (Math.random()*400));
+				sprite[i].setPos((int) (Math.random()*700), (int) (Math.random()*500));
 				sprite[i].draw(gIn);
 			}
 		}

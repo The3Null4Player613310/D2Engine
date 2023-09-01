@@ -10,7 +10,7 @@ build: clean
 	$(JC) -d ./out --source-path ./src/$(PDIR) @manifest.txt;
 
 
-run:
+run: build
 	java -classpath out com.thenullplayer.d2engine.Main;
 
 

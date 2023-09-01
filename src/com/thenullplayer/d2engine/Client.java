@@ -4,8 +4,16 @@ import java.net.InetAddress;
 
 public class Client extends Thread implements Context
 {
+	private final int FPS = 15;
+	private final long PTIME = 1000/FPS;
+
 	private volatile boolean isRunning;
 	private volatile boolean isConnected;
+	private volatile boolean isPaused;
+
+	private long startTime = 0;
+	private long endTime = 0;
+	private long delayTime = 0;
 
 	private ManagerEntity entityManager;
 	private Window window;
@@ -37,7 +45,23 @@ public class Client extends Thread implements Context
 	{
 		while(isRunning)
 		{
-			
+			while(isPaused)
+			{
+				try
+				{
+					Thread.sleep(800);
+				}
+				catch(Exception e){}
+			}	
+			startTime = System.currentTimeMillis();
+			window.repaint();
+			endTime = System.currentTimeMillis();
+			delayTime = Math.max(PTIME - (endTime - startTime), 0);
+			try
+			{
+				Thread.sleep(delayTime);
+			}
+			catch(Exception e){}
 		}
 	}
 
@@ -47,6 +71,19 @@ public class Client extends Thread implements Context
 
 	public void pause()
 	{
+		if(!isPaused)
+		{
+			isPaused = true;
+			new MenuPause(window);
+		}
+	}
+
+	public void play()
+	{
+		if(isPaused)
+		{
+			isPaused = false;
+		}
 	}
 
 	public void quit()
@@ -64,10 +101,10 @@ public class Client extends Thread implements Context
 				case Keyboard.KEY_S:
 				case Keyboard.KEY_A:
 				case Keyboard.KEY_D:
-					window.repaint();
+					//window.repaint();
 					break;
 				case Keyboard.KEY_ESC:
-					new MenuPause(window);
+					pause();
 					break;
 				default:
 					System.out.println("" + keyIn + "DOWN");
