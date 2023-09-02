@@ -24,11 +24,9 @@ public class Window extends JFrame
 	private Menu pauseMenu;
 	private Menu optionMenu;
 
-	public Window(Client clientIn)
+	public Window()
 	{
 		super();
-
-		client = clientIn;
 
 		layout = new SpringLayout();
 
@@ -54,29 +52,53 @@ public class Window extends JFrame
 		screen = new Screen(SIZE);
 		this.add(screen);
 
-	}
-
-	public void init()
-	{
 		this.pack();
 		this.setVisible(true);
 	}
 
-	public void hideScreen()
+	public void bind(Client clientIn)
+	{
+		client = clientIn;
+	}
+
+	public void unbind(Client clientIn)
+	{
+		client = clientIn;
+	}
+
+	private void hideScreen()
 	{
 		screen.hideScreen();
 	}
 
-	public void showScreen()
+	private void showScreen()
 	{
 		//hideMenus();
 		screen.showScreen();
 	}
 
-	public void play()
+
+	public void startGame()
 	{
 		showScreen();
-		client.play();
+		client.startGame();
+	}
+
+	public void pauseGame()
+	{
+		client.pauseGame();
+	}
+
+	public void resumeGame()
+	{
+		showScreen();
+		client.resumeGame();
+	}
+
+	public void quitGame()
+	{
+		hideScreen();
+		client.quitGame();
 	}
 
 	public void quit()
@@ -131,7 +153,7 @@ public class Window extends JFrame
 		@Override
 		public void windowClosing(WindowEvent eventIn)
 		{
-			client.quit();
+			client.quitGame();
 		}
 	}
 }

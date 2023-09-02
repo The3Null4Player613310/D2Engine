@@ -50,9 +50,11 @@ public class Sprite
 			{
 				int sx = j * SCALE;
 				int sy = i * SCALE;
+				int px = x * SCALE;
+				int py = y * SCALE;
 
 				gIn.setColor(pallet[sprite[i][j]]);
-				gIn.fillRect(x+sx, y+sy, SCALE, SCALE);
+				gIn.fillRect(px+sx, py+sy, SCALE, SCALE);
 			}
 		}
 	}

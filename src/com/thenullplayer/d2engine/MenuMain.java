@@ -15,7 +15,17 @@ public class MenuMain extends Menu
 	public MenuMain(Window windowIn)
 	{
 		super(windowIn);
+		init();
+	}
 
+	public MenuMain(Window windowIn, Menu branchIn)
+	{
+		super(windowIn, branchIn);
+		init();
+	}
+
+	private void init()
+	{
 		this.setBackground(Color.blue);
 
 		spButton = new JButton();
@@ -47,7 +57,7 @@ public class MenuMain extends Menu
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
 			menu.closeMenu();
-			menu.window.play();
+			menu.window.startGame();
 		}
 	}
 
@@ -63,8 +73,7 @@ public class MenuMain extends Menu
 		@Override
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
-			menu.closeMenu();
-			menu.window.showScreen();
+			new MenuConnect(menu.window, menu);
 		}
 	}
 

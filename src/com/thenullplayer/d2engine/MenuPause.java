@@ -59,7 +59,7 @@ public class MenuPause extends Menu
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
 			menu.closeMenu();
-			menu.window.play();
+			menu.window.resumeGame();
 		}
 
 	}
@@ -93,7 +93,7 @@ public class MenuPause extends Menu
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
 			menu.closeMenu();
-			menu.window.hideScreen();
+			menu.window.quitGame();
 			new MenuMain(menu.window);
 		}
 	}

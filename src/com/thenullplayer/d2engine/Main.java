@@ -25,8 +25,7 @@ public class Main
 		}
 		else
 		{
-			client = new Client();
-			client.init();
+			Client.startClient();
 		}
 		while(isRunning){};
 	}

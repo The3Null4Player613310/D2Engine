@@ -9,6 +9,8 @@ import javax.swing.SpringLayout;
 
 public class Menu extends JPanel
 {
+	//private static int count = 0;
+
 	private boolean isVisible = true;
 	public final Window window;
 	private Menu branch;
@@ -32,6 +34,9 @@ public class Menu extends JPanel
 		window.add(this, 0);
 
 		this.showMenu();
+
+		//count++;
+		//System.out.println(count);
 	}
 
 	public Menu(Window windowIn, Menu branchIn)
@@ -80,6 +85,17 @@ public class Menu extends JPanel
 		if(branch != null)
 			branch.showMenu();
 		window.remove(this);
+		//count--;
+		//System.out.println(count);
+	}
+
+	public void closeMenuTree()
+	{
+		if(branch != null)
+			branch.closeMenuTree();
+		window.remove(this);
+		//count--;
+		//System.out.println(count);
 	}
 
 	Component lastComponent;

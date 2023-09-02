@@ -7,6 +7,10 @@ public class Client extends Thread implements Context
 	private final int FPS = 15;
 	private final long PTIME = 1000/FPS;
 
+	private static Window window;
+	private static Client client;
+	private static Keyboard keyboard;
+
 	private volatile boolean isRunning;
 	private volatile boolean isConnected;
 	private volatile boolean isPaused;
@@ -16,17 +20,33 @@ public class Client extends Thread implements Context
 	private long delayTime = 0;
 
 	private ManagerEntity entityManager;
-	private Window window;
-	private Keyboard keyboard;
 
-	public Client()
+	private Client()
 	{
-		entityManager = ManagerEntity.getInstance();
-	
-		window = new Window(this);
-		keyboard = new Keyboard();
+		init();
+	}
+
+	private  void init()
+	{
+		bind();
+
 		keyboard.setListener(new KeyListener());
-		window.addKeyListener(keyboard);
+
+		entityManager = ManagerEntity.getInstance();
+
+		Entity entity = new Entity();
+		entityManager.addEntity(entity);
+
+	}
+
+	private void bind()
+	{
+		window.bind(this);
+	}
+
+	private void unbind()
+	{
+		window.unbind(this);
 	}
 
 	public int getContext()
@@ -34,15 +54,9 @@ public class Client extends Thread implements Context
 		return Context.CLIENT;
 	}
 
-	public void init()
-	{
-		isRunning = true;
-		window.init();
-		this.start();
-	}
-
 	public void run()
 	{
+		isRunning = true;
 		while(isRunning)
 		{
 			while(isPaused)
@@ -55,6 +69,7 @@ public class Client extends Thread implements Context
 			}	
 			startTime = System.currentTimeMillis();
 			window.repaint();
+			entityManager.think();
 			endTime = System.currentTimeMillis();
 			delayTime = Math.max(PTIME - (endTime - startTime), 0);
 			try
@@ -63,13 +78,26 @@ public class Client extends Thread implements Context
 			}
 			catch(Exception e){}
 		}
+		this.destroy();
+	}
+
+	public void destroy()
+	{
+		unbind();
+
+		entityManager = null;
 	}
 
 	public void connect(InetAddress ip)
 	{
 	}
 
-	public void pause()
+	public void startGame()
+	{
+		startClient();
+	}
+
+	public void pauseGame()
 	{
 		if(!isPaused)
 		{
@@ -78,7 +106,7 @@ public class Client extends Thread implements Context
 		}
 	}
 
-	public void play()
+	public void resumeGame()
 	{
 		if(isPaused)
 		{
@@ -86,9 +114,29 @@ public class Client extends Thread implements Context
 		}
 	}
 
-	public void quit()
+	public void quitGame()
 	{
+		isPaused = false;
 		isRunning = false;
+		client = null;
+	}
+
+	public static void startClient()
+	{
+		if(keyboard == null)
+		{
+			keyboard = new Keyboard();
+		}
+		if(window == null)
+		{
+			window = new Window();
+			window.addKeyListener(keyboard);
+		}
+		if(client == null)
+		{
+			client = new Client();
+			client.start();
+		}
 	}
 
 	class KeyListener implements Keyboard.KeyboardListener
@@ -104,10 +152,10 @@ public class Client extends Thread implements Context
 					//window.repaint();
 					break;
 				case Keyboard.KEY_ESC:
-					pause();
+					pauseGame();
 					break;
 				default:
-					System.out.println("" + keyIn + "DOWN");
+					System.out.println("" + keyIn + " DOWN");
 					break;
 			}
 		}
@@ -117,7 +165,7 @@ public class Client extends Thread implements Context
 			switch(keyIn)
 			{
 				default:
-					System.out.println("" + keyIn + "UP");
+					System.out.println("" + keyIn + " UP");
 					break;
 			}
 		}
