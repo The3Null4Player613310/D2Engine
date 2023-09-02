@@ -4,6 +4,7 @@ src/com/thenullplayer/d2engine/Entity.java
 src/com/thenullplayer/d2engine/Manager.java
 src/com/thenullplayer/d2engine/ManagerConnection.java
 src/com/thenullplayer/d2engine/ManagerEntity.java
+src/com/thenullplayer/d2engine/ManagerRender.java
 src/com/thenullplayer/d2engine/Client.java
 src/com/thenullplayer/d2engine/Keyboard.java
 src/com/thenullplayer/d2engine/Window.java

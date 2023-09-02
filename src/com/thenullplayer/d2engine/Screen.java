@@ -7,35 +7,27 @@ import javax.swing.JPanel;
 
 public class Screen extends JPanel
 {
-	private final int ROWS = 10;
-	private final int COLS = 13;
 
 	private boolean isVisible = true;
 
-	Sprite[] sprite = new Sprite[8];
-	Tile[][] tile = new Tile[ROWS][COLS];
+	private ManagerRender renderManager; 
+
 
 	public Screen(Dimension sizeIn)
 	{
 		super();
 
+		renderManager = ManagerRender.getInstance();
 
 		hideScreen();
+		
 		this.setBackground(Color.gray);
 		this.setPreferredSize(sizeIn);
 		this.setMinimumSize(sizeIn);
 		
 		for(int i=0; i<8; i++)
-			sprite[i] = new Sprite();
+			renderManager.addSprite(new Sprite());
 
-		for(int i=0; i<ROWS; i++)
-		{
-			for(int j=0; j<COLS; j++)
-			{
-				tile[i][j] = new Tile();
-				tile[i][j].setPos(j, i);
-			}
-		}
 	}
 
 	public void hideScreen()
@@ -58,26 +50,10 @@ public class Screen extends JPanel
 		requestFocusInWindow();
 	}
 
+
 	@Override
 	public void paint(Graphics gIn)
 	{
-		gIn.drawLine(0,0,100,100);
-		
-		for(int i=0; i<ROWS; i++)
-		{
-			for(int j=0; j<COLS; j++)
-			{
-				tile[i][j].draw(gIn);
-			}
-		}
-
-		for(int i=0; i<8; i++)
-		{
-			if(sprite[i] != null)
-			{
-				sprite[i].setPos((int) (Math.random()*184), (int) (Math.random()*134));
-				sprite[i].draw(gIn);
-			}
-		}
+		renderManager.draw(gIn);
 	}
 }

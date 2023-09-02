@@ -1,5 +1,6 @@
 package com.thenullplayer.d2engine;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -31,15 +32,27 @@ public class ManagerEntity
 
 	public void think()
 	{
-		Entity curEntity = null;
+		Entity[] batch = new Entity[BATCH_SIZE]; 
 		for(int i=0; i<BATCH_SIZE; i++)
 		{
-			curEntity = thinkQueue.poll();
-			if((curEntity != null) && entityList.contains(curEntity))
-			{	
-				curEntity.think();
-				thinkQueue.add(curEntity);
+			batch[i] = thinkQueue.poll();
+		}
+	
+		for(int i=0; i<BATCH_SIZE; i++)
+		{
+			if((batch[i] != null) && entityList.contains(batch[i]))
+			{
+				batch[i].think();
+				thinkQueue.add(batch[i]);
 			}
+		}		
+	}
+
+	public void draw(Graphics gIn)
+	{
+		for(int i=0; i<entityList.size(); i++)
+		{
+			entityList.get(i).draw(gIn);
 		}
 	}
 

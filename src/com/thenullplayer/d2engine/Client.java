@@ -4,7 +4,7 @@ import java.net.InetAddress;
 
 public class Client extends Thread implements Context
 {
-	private final int FPS = 15;
+	private final int FPS = 15;//15;
 	private final long PTIME = 1000/FPS;
 
 	private static Window window;
@@ -20,6 +20,7 @@ public class Client extends Thread implements Context
 	private long delayTime = 0;
 
 	private ManagerEntity entityManager;
+	private ManagerRender renderManager;
 
 	private Client()
 	{
@@ -33,9 +34,12 @@ public class Client extends Thread implements Context
 		keyboard.setListener(new KeyListener());
 
 		entityManager = ManagerEntity.getInstance();
+		renderManager = ManagerRender.getInstance();
 
 		Entity entity = new Entity();
+		entity.setVelocity(1,1);
 		entityManager.addEntity(entity);
+		renderManager.addSprite(entity.getSprite());
 
 	}
 
@@ -68,8 +72,8 @@ public class Client extends Thread implements Context
 				catch(Exception e){}
 			}	
 			startTime = System.currentTimeMillis();
+			think();
 			window.repaint();
-			entityManager.think();
 			endTime = System.currentTimeMillis();
 			delayTime = Math.max(PTIME - (endTime - startTime), 0);
 			try
@@ -79,6 +83,12 @@ public class Client extends Thread implements Context
 			catch(Exception e){}
 		}
 		this.destroy();
+	}
+
+	private void think()
+	{
+		entityManager.think();
+		renderManager.think();
 	}
 
 	public void destroy()
