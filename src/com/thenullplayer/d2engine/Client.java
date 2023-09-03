@@ -4,8 +4,14 @@ import java.net.InetAddress;
 
 public class Client extends Thread implements Context
 {
-	private final int FPS = 15;//15;
+	private final int FPS = 22;//15;
 	private final long PTIME = 1000/FPS;
+
+	private final int MASK_M = 15;
+	private final int FLAG_U = 1;
+	private final int FLAG_D = 2;
+	private final int FLAG_L = 4;
+	private final int FLAG_R = 8;
 
 	private static Window window;
 	private static Client client;
@@ -19,8 +25,12 @@ public class Client extends Thread implements Context
 	private long endTime = 0;
 	private long delayTime = 0;
 
+	private int moveFlags;
+
 	private ManagerEntity entityManager;
 	private ManagerRender renderManager;
+
+	private Entity player;
 
 	private Client()
 	{
@@ -31,16 +41,37 @@ public class Client extends Thread implements Context
 	{
 		bind();
 
+		isPaused = true;
+
 		keyboard.setListener(new KeyListener());
 
 		entityManager = ManagerEntity.getInstance();
 		renderManager = ManagerRender.getInstance();
 
-		Entity entity = new Entity();
-		entity.setVelocity(1,1);
-		entityManager.addEntity(entity);
-		renderManager.addSprite(entity.getSprite());
+		player = new EntityPlayer();
+		//entity.setVelocity(1,1);
+		player.setPos(-85,-56);
+		entityManager.addEntity(player);
+		renderManager.addSprite(player.getSprite());
 
+		for(int i=0; i<7; i++)
+		{
+			EntityAnimal animal = new EntityAnimal();
+			animal.setPos((int) (Math.random()*-200), (int) (Math.random()*-150));
+			entityManager.addEntity(animal);
+			renderManager.addSprite(animal.getSprite());
+		}
+
+		for(int i=0; i<10; i++)
+		{
+			for(int j=0; j<13; j++)
+			{
+				Tile tile = new Tile();
+				tile.setPos(j, i);
+				renderManager.addTile(tile);
+			}
+		}
+		this.start();
 	}
 
 	private void bind()
@@ -89,6 +120,20 @@ public class Client extends Thread implements Context
 	{
 		entityManager.think();
 		renderManager.think();
+
+		//System.out.println(moveFlags);
+
+		var x = 0;
+		var y = 0;
+		if((moveFlags & FLAG_U) == FLAG_U)
+			y+=1;
+		if((moveFlags & FLAG_D) == FLAG_D)
+			y-=1;
+		if((moveFlags & FLAG_L) == FLAG_L)
+			x+=1;
+		if((moveFlags & FLAG_R) == FLAG_R)
+			x-=1;
+		player.setVelocity(x, y);
 	}
 
 	public void destroy()
@@ -96,6 +141,10 @@ public class Client extends Thread implements Context
 		unbind();
 
 		entityManager = null;
+
+		isPaused = false;
+		isRunning = false;
+		client = null;
 	}
 
 	public void connect(InetAddress ip)
@@ -104,7 +153,10 @@ public class Client extends Thread implements Context
 
 	public void startGame()
 	{
-		startClient();
+		if(isPaused)
+		{
+			isPaused = false;
+		}
 	}
 
 	public void pauseGame()
@@ -126,9 +178,10 @@ public class Client extends Thread implements Context
 
 	public void quitGame()
 	{
-		isPaused = false;
-		isRunning = false;
-		client = null;
+		if(!isPaused)
+		{
+			isPaused = true;
+		}
 	}
 
 	public static void startClient()
@@ -141,12 +194,17 @@ public class Client extends Thread implements Context
 		{
 			window = new Window();
 			window.addKeyListener(keyboard);
-		}
+		}	
 		if(client == null)
 		{
-			client = new Client();
-			client.start();
+			client = new Client();;
 		}
+	}
+
+	public static void quitClient()
+	{
+		if(client != null)
+			client.destroy();
 	}
 
 	class KeyListener implements Keyboard.KeyboardListener
@@ -156,10 +214,16 @@ public class Client extends Thread implements Context
 			switch(keyIn)
 			{
 				case Keyboard.KEY_W:
+					moveFlags |= FLAG_U;
+					break;
 				case Keyboard.KEY_S:
+					moveFlags |= FLAG_D;
+					break;
 				case Keyboard.KEY_A:
+					moveFlags |= FLAG_L;
+					break;
 				case Keyboard.KEY_D:
-					//window.repaint();
+					moveFlags |= FLAG_R;
 					break;
 				case Keyboard.KEY_ESC:
 					pauseGame();
@@ -174,6 +238,18 @@ public class Client extends Thread implements Context
 		{
 			switch(keyIn)
 			{
+				case Keyboard.KEY_W:
+					moveFlags &= (~FLAG_U & MASK_M);
+					break;
+				case Keyboard.KEY_S:
+					moveFlags &= (~FLAG_D & MASK_M);
+					break;
+				case Keyboard.KEY_A:
+					moveFlags &= (~FLAG_L & MASK_M);
+					break;
+				case Keyboard.KEY_D:
+					moveFlags &= (~FLAG_R & MASK_M);
+					break;
 				default:
 					System.out.println("" + keyIn + " UP");
 					break;

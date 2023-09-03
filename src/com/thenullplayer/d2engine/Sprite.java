@@ -3,14 +3,15 @@ package com.thenullplayer.d2engine;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Sprite
+public class Sprite implements Point
 {
 	public final int SIZE = 16;
 	public final int SCALE = 4;
 	public final Color BG_COLOR = new Color(0,0,0,0);
+	public final byte PALLET_MASK = 3;	
 
-	private int x=0;
-	private int y=0;
+	private int posX=0;
+	private int posY=0;
 
 	private Color[] pallet = new Color[4];
 	private byte[][] sprite = new byte[SIZE][SIZE]; 
@@ -36,10 +37,34 @@ public class Sprite
 		}
 	}
 
-	public void setPos(int xIn, int yIn)
+	public Sprite(byte[][] dataIn)
 	{
-		x=xIn;
-		y=yIn;
+		this();
+		int row = Math.min(dataIn.length, SIZE);
+		for(int i=0; i<row; i++)
+		{
+			int col = Math.min(dataIn[i].length, SIZE);
+			for(int j=0; j<col; j++)
+			{
+				sprite[i][j] = (byte) (dataIn[i][j] & PALLET_MASK);
+			}
+		}
+	}
+
+	public void setPos(int posXIn, int posYIn)
+	{
+		posX=posXIn;
+		posY=posYIn;
+	}
+
+	public int getX()
+	{
+		return posX;
+	}
+
+	public int getY()
+	{
+		return posY;
 	}
 
 	public void draw(Graphics gIn)
@@ -50,8 +75,8 @@ public class Sprite
 			{
 				int sx = j * SCALE;
 				int sy = i * SCALE;
-				int px = x * SCALE;
-				int py = y * SCALE;
+				int px = -posX * SCALE;
+				int py = -posY * SCALE;
 
 				gIn.setColor(pallet[sprite[i][j]]);
 				gIn.fillRect(px+sx, py+sy, SCALE, SCALE);

@@ -8,24 +8,68 @@ class ManagerRender
 {
 	private final int ROWS = 10;
 	private final int COLS = 13;
+	private final int SIZE = 16;
 	private final int BATCH_SIZE = 8;
 
 	private static ManagerRender manager;
 
+	private Camera camera;
+
+	//private int x = 0;
+	//private int y = 0;
+
+	//private int coordX = 0;
+	//private int coordY = 0;
+	
 	private ArrayList<Tile> tileList;
 	private ArrayList<Sprite> spriteList;
 	private PriorityQueue<Tile> tileQueue;
 	private PriorityQueue<Sprite> spriteQueue;
+	private PriorityQueue<Sprite> spriteBuffer;
 
 	Sprite[] sprite = new Sprite[BATCH_SIZE];
 	Tile[][] tile = new Tile[ROWS][COLS];
 
 	private ManagerRender()
 	{
+		camera = new Camera();
+		camera.setPos(-104, -80);
+
 		tileList = new ArrayList<>();
 		spriteList = new ArrayList<>();
-		tileQueue = new PriorityQueue<Tile>((o1,o2) -> { return 0; });
-		spriteQueue = new PriorityQueue<Sprite>((o1,o2) -> { return 0; });
+		tileQueue = new PriorityQueue<Tile>((o1, o2) -> 
+		{
+			double m1 = Math.pow(Math.pow((o1.getX() - camera.getX()), 2) + Math.pow((o1.getY() - camera.getY()), 2), 0.5); 
+			double m2 = Math.pow(Math.pow((o2.getX() - camera.getX()), 2) + Math.pow((o2.getY() - camera.getY()), 2), 0.5); 
+			if(m1 > m2)
+				return 1;
+			else if(m1 < m2)
+				return -1;
+			else
+				return 0; 
+		});
+		spriteQueue = new PriorityQueue<Sprite>((o1, o2) -> 
+		{
+			double m1 = Math.pow(Math.pow((o1.getX() - camera.getX()), 2) + Math.pow((o1.getY() - camera.getY()), 2), 0.5); 
+			double m2 = Math.pow(Math.pow((o2.getX() - camera.getX()), 2) + Math.pow((o2.getY() - camera.getY()), 2), 0.5); 
+			if(m1 > m2)
+				return 1;
+			else if(m1 < m2)
+				return -1;
+			else
+				return 0; 
+		});
+		spriteBuffer = new PriorityQueue<Sprite>((o1, o2) -> 
+		{
+			double y1 = (o1.getY() - camera.getY()); 
+			double y2 = (o2.getY() - camera.getY()); 
+			if(y1 < y2)
+				return 1;
+			else if(y1 > y2)
+				return -1;
+			else
+				return 0; 
+		});
 	}
 
 	public void addSprite(Sprite spriteIn)
@@ -41,10 +85,13 @@ class ManagerRender
 
 	public void addTile(Tile tileIn)
 	{
+		tileList.add(tileIn);
+		tileQueue.add(tileIn);
 	}
 
 	public void removeTile(Tile tileIn)
 	{
+		tileList.remove(tileIn);
 	}
 
 	//private void addSprite(Sprite spriteIn)
@@ -75,20 +122,47 @@ class ManagerRender
 
 	public void think()
 	{
-		Sprite[] batch = new Sprite[BATCH_SIZE];
-		for(int i=0; i<batch.length; i++)
+		Sprite[] sBatch = new Sprite[BATCH_SIZE];
+		for(int i=0; i<sBatch.length; i++)
 		{
-			batch[i] = spriteQueue.poll();
+			sBatch[i] = spriteQueue.poll();
 		}
 
-		for(int i=0; i<batch.length; i++)
+		for(int i=0; i<sBatch.length; i++)
 		{
-			if((batch[i] != null) && spriteList.contains(batch[i]))
+			if((sBatch[i] != null) && spriteList.contains(sBatch[i]))
 			{
-				sprite[i] = batch[i];
-				spriteQueue.add(batch[i]);
+				spriteBuffer.add(sBatch[i]);
+				spriteQueue.add(sBatch[i]);
 			}
 		}
+		
+		for(int i=0; i<BATCH_SIZE; i++)
+		{
+			sprite[i] = spriteBuffer.poll();			
+		}
+
+		Tile[][] tBatch = new Tile[ROWS][COLS];
+		for(int i=0; i<ROWS; i++)
+		{
+			for(int j=0; j<COLS; j++)
+			{
+				tBatch[i][j] = tileQueue.poll();
+			}
+		}
+		
+		for(int i=0; i<ROWS; i++)
+		{
+			for(int j=0; j<COLS; j++)
+			{
+				if((tBatch[i] != null) && tileList.contains(tBatch[i][j]))
+				{
+					tile[i][j] = tBatch[i][j];
+					tileQueue.add(tBatch[i][j]);
+				}
+			}
+		}	
+
 	}
 
 	public void draw(Graphics gIn)

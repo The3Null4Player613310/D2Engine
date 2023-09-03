@@ -3,7 +3,7 @@ package com.thenullplayer.d2engine;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Tile
+public class Tile implements Point
 {
 	final int SIZE = 16;
 	final int SCALE = 4;
@@ -26,14 +26,13 @@ public class Tile
 		{
 			for(int j=0; j<SIZE; j++)
 			{
-				if((int) (Math.random() * 2) == 0)
+				if((int) (Math.random() * 16) == 0)
 					tile[i][j] = 1;
 				else
 					tile[i][j] = 2;
 
-				if(((int) (Math.random() * 32)) == 0)
+				if(((int) (Math.random() * 256)) == 0)
 					tile[i][j] = 3;
-
 			}		
 		}
 	}
@@ -42,6 +41,16 @@ public class Tile
 	{
 		posX = posXIn;
 		posY = posYIn;
+	}
+
+	public int getX()
+	{
+		return posX;
+	}
+
+	public int getY()
+	{
+		return posY;
 	}
 
 	public void draw(Graphics gIn)

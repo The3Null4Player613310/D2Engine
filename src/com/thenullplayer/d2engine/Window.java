@@ -38,17 +38,8 @@ public class Window extends JFrame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.addWindowListener(new CloseAdapter());
 
-
-		//optionMenu = new MenuOption(this);
-		//this.add(optionMenu);
-
 		mainMenu = new MenuMain(this);
-		//this.add(mainMenu);
-		//mainMenu.showMenu();
-
-		//pauseMenu = new MenuPause(this);
-		//this.add(pauseMenu);
-
+		
 		screen = new Screen(SIZE);
 		this.add(screen);
 
@@ -63,7 +54,8 @@ public class Window extends JFrame
 
 	public void unbind(Client clientIn)
 	{
-		client = clientIn;
+		if(clientIn == client)
+			client = null;
 	}
 
 	private void hideScreen()
@@ -73,32 +65,42 @@ public class Window extends JFrame
 
 	private void showScreen()
 	{
-		//hideMenus();
 		screen.showScreen();
 	}
 
-
 	public void startGame()
 	{
-		showScreen();
-		client.startGame();
+		if(client != null)
+		{
+			showScreen();
+			client.startGame();
+		}
 	}
 
 	public void pauseGame()
 	{
-		client.pauseGame();
+		if(client != null)
+		{
+			client.pauseGame();
+		}
 	}
 
 	public void resumeGame()
 	{
-		showScreen();
-		client.resumeGame();
+		if(client != null)
+		{
+			showScreen();
+			client.resumeGame();
+		}
 	}
 
 	public void quitGame()
 	{
-		hideScreen();
-		client.quitGame();
+		if(client != null)
+		{
+			hideScreen();
+			client.quitGame();
+		}
 	}
 
 	public void quit()
@@ -153,7 +155,10 @@ public class Window extends JFrame
 		@Override
 		public void windowClosing(WindowEvent eventIn)
 		{
-			client.quitGame();
+			if(client != null)
+			{
+				client.quitGame();
+			}
 		}
 	}
 }

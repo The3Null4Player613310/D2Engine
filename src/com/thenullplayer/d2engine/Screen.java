@@ -25,9 +25,6 @@ public class Screen extends JPanel
 		this.setPreferredSize(sizeIn);
 		this.setMinimumSize(sizeIn);
 		
-		for(int i=0; i<8; i++)
-			renderManager.addSprite(new Sprite());
-
 	}
 
 	public void hideScreen()
