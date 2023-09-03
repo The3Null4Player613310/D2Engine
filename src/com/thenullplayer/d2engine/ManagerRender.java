@@ -167,7 +167,6 @@ class ManagerRender
 
 	public void draw(Graphics gIn)
 	{
-		gIn.drawLine(0,0,100,100);
 		
 		for(int i=0; i<ROWS; i++)
 		{

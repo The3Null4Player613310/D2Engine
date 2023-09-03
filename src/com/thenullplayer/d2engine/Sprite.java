@@ -57,6 +57,21 @@ public class Sprite implements Point
 		posY=posYIn;
 	}
 
+	public void setPrimary(Color colorIn)
+	{
+		pallet[1] = colorIn;
+	}
+
+	public void setSecondary(Color colorIn)
+	{
+		pallet[2] = colorIn;
+	}
+
+	public void setTernary(Color colorIn)
+	{
+		pallet[3] = colorIn;
+	}
+
 	public int getX()
 	{
 		return posX;
