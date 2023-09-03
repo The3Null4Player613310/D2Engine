@@ -5,8 +5,8 @@ import java.awt.Graphics;
 
 public class Tile implements Point
 {
-	final int SIZE = 16;
-	final int SCALE = 4;
+	final int SIZE = ManagerRender.SIZE;
+	final int SCALE = ManagerRender.SCALE;
 	final Color BG_COLOR = new Color(0,0,0,0);
 
 	private int posX = 0;
@@ -60,7 +60,25 @@ public class Tile implements Point
 			for(int j=0; j<SIZE; j++)
 			{
 				int cx = (j * SCALE) + posX * (SIZE * SCALE);
-				int cy = (i * SCALE) + posY * (SIZE * SCALE);
+				int cy = (i * SCALE) + -posY * (SIZE * SCALE);
+				
+				gIn.setColor(pallet[tile[i][j]]);
+				gIn.fillRect(cx, cy, SCALE, SCALE);
+			}
+		}
+	}
+
+	public void draw(Graphics gIn, Camera cameraIn)
+	{
+		int cameraX = cameraIn.getX();
+		int cameraY = cameraIn.getY();
+
+		for(int i=0; i<SIZE; i++)
+		{
+			for(int j=0; j<SIZE; j++)
+			{
+				int cx = (j * SCALE) + (posX * (SIZE * SCALE) - (cameraX * SCALE));
+				int cy = (i * SCALE) + -(posY * (SIZE * SCALE) - (cameraY * SCALE));
 				
 				gIn.setColor(pallet[tile[i][j]]);
 				gIn.fillRect(cx, cy, SCALE, SCALE);

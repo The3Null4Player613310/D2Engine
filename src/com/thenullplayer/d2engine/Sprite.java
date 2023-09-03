@@ -5,10 +5,10 @@ import java.awt.Graphics;
 
 public class Sprite implements Point
 {
-	public final int SIZE = 16;
-	public final int SCALE = 4;
-	public final Color BG_COLOR = new Color(0,0,0,0);
-	public final byte PALLET_MASK = 3;	
+	public static final int SIZE = ManagerRender.SIZE; //16;
+	public static final int SCALE = ManagerRender.SCALE; //4;
+	public static final Color BG_COLOR = new Color(0,0,0,0);
+	public static final byte PALLET_MASK = 3;	
 
 	private int posX=0;
 	private int posY=0;
@@ -90,8 +90,28 @@ public class Sprite implements Point
 			{
 				int sx = j * SCALE;
 				int sy = i * SCALE;
-				int px = -posX * SCALE;
+				int px = posX * SCALE;
 				int py = -posY * SCALE;
+
+				gIn.setColor(pallet[sprite[i][j]]);
+				gIn.fillRect(px+sx, py+sy, SCALE, SCALE);
+			}
+		}
+	}
+
+	public void draw(Graphics gIn, Camera cameraIn)
+	{
+		int cameraX = cameraIn.getX();
+		int cameraY = cameraIn.getY();
+		
+		for(int i=0; i<SIZE; i++)
+		{
+			for(int j=0; j<SIZE; j++)
+			{
+				int sx = j * SCALE;
+				int sy = i * SCALE;
+				int px = (posX * SCALE) - (cameraX * SCALE);
+				int py = -(posY * SCALE) + (cameraY * SCALE);
 
 				gIn.setColor(pallet[sprite[i][j]]);
 				gIn.fillRect(px+sx, py+sy, SCALE, SCALE);

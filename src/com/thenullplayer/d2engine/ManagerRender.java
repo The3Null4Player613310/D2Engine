@@ -6,10 +6,11 @@ import java.util.PriorityQueue;
 
 class ManagerRender
 {
-	private final int ROWS = 10;
-	private final int COLS = 13;
-	private final int SIZE = 16;
-	private final int BATCH_SIZE = 8;
+	public static final int ROWS = 10;
+	public static final int COLS = 13;
+	public static final int SIZE = 16;
+	public static final int SCALE = 4;
+	public static final int BATCH_SIZE = 8;
 
 	private static ManagerRender manager;
 
@@ -33,7 +34,7 @@ class ManagerRender
 	private ManagerRender()
 	{
 		camera = new Camera();
-		camera.setPos(-104, -80);
+		camera.setPos(0,0); //-104, -80);
 
 		tileList = new ArrayList<>();
 		spriteList = new ArrayList<>();
@@ -119,9 +120,15 @@ class ManagerRender
 	//	return false;
 	//}
 
+	public void follow(Entity entityIn)
+	{
+		camera.follow(entityIn);
+	}
 
 	public void think()
 	{
+		camera.think();
+
 		Sprite[] sBatch = new Sprite[BATCH_SIZE];
 		for(int i=0; i<sBatch.length; i++)
 		{
@@ -173,7 +180,7 @@ class ManagerRender
 			for(int j=0; j<COLS; j++)
 			{
 				if(tile[i][j] != null)
-					tile[i][j].draw(gIn);
+					tile[i][j].draw(gIn, camera);
 			}
 		}
 
@@ -182,7 +189,7 @@ class ManagerRender
 			if(sprite[i] != null)
 			{
 				//sprite[i].setPos((int) (Math.random()*184), (int) (Math.random()*134));
-				sprite[i].draw(gIn);
+				sprite[i].draw(gIn, camera);
 			}
 		}
 	}

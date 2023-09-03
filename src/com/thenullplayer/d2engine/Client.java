@@ -50,14 +50,15 @@ public class Client extends Thread implements Context
 
 		player = new EntityPlayer();
 		//entity.setVelocity(1,1);
-		player.setPos(-85,-56);
+		player.setPos(85,-56);
 		entityManager.addEntity(player);
+		renderManager.follow(player);
 		renderManager.addSprite(player.getSprite());
 
 		for(int i=0; i<7; i++)
 		{
 			EntityAnimal animal = new EntityAnimal();
-			animal.setPos((int) (Math.random()*-200), (int) (Math.random()*-150));
+			animal.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
 			entityManager.addEntity(animal);
 			renderManager.addSprite(animal.getSprite());
 		}
@@ -67,7 +68,7 @@ public class Client extends Thread implements Context
 			for(int j=0; j<13; j++)
 			{
 				Tile tile = new Tile();
-				tile.setPos(j, i);
+				tile.setPos(j, i-9);
 				renderManager.addTile(tile);
 			}
 		}
@@ -130,9 +131,9 @@ public class Client extends Thread implements Context
 		if((moveFlags & FLAG_D) == FLAG_D)
 			y-=1;
 		if((moveFlags & FLAG_L) == FLAG_L)
-			x+=1;
-		if((moveFlags & FLAG_R) == FLAG_R)
 			x-=1;
+		if((moveFlags & FLAG_R) == FLAG_R)
+			x+=1;
 		player.setVelocity(x, y);
 	}
 
