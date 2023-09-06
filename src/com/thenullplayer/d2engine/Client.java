@@ -29,6 +29,7 @@ public class Client extends Thread implements Context
 
 	private ManagerEntity entityManager;
 	private ManagerRender renderManager;
+	private ManagerSound soundManager;
 
 	private Entity player;
 
@@ -47,6 +48,7 @@ public class Client extends Thread implements Context
 
 		entityManager = ManagerEntity.getInstance();
 		renderManager = ManagerRender.getInstance();
+		soundManager = ManagerSound.getInstance();
 
 		player = new EntityPlayer();
 		//entity.setVelocity(1,1);
@@ -55,7 +57,7 @@ public class Client extends Thread implements Context
 		renderManager.follow(player);
 		renderManager.addSprite(player.getSprite());
 
-		for(int i=0; i<7; i++)
+		for(int i=0; i<15; i++)
 		{
 			EntityAnimal animal = new EntityAnimal();
 			animal.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
@@ -121,6 +123,7 @@ public class Client extends Thread implements Context
 	{
 		entityManager.think();
 		renderManager.think();
+		soundManager.think();
 
 		//System.out.println(moveFlags);
 
@@ -225,6 +228,9 @@ public class Client extends Thread implements Context
 					break;
 				case Keyboard.KEY_D:
 					moveFlags |= FLAG_R;
+					break;
+				case Keyboard.KEY_E:
+					soundManager.tone(440, 500);
 					break;
 				case Keyboard.KEY_ESC:
 					pauseGame();

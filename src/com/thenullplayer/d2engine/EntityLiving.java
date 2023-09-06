@@ -10,6 +10,8 @@ public class EntityLiving extends Entity
 
 	private int health; 
 
+	private AI ai;
+
 	public EntityLiving()
 	{
 		super();
@@ -21,6 +23,11 @@ public class EntityLiving extends Entity
 	public int getHealth()
 	{
 		return health;
+	}
+
+	public void setAI(AI aiIn)
+	{
+		ai = aiIn;
 	}
 
 	public void setHealth(int healthIn)
@@ -40,6 +47,9 @@ public class EntityLiving extends Entity
 
 	public void think()
 	{
+		if(ai != null)
+			ai.think();
+
 		super.think();
 
 		isAlive = (health > HEALTH_DEAD);

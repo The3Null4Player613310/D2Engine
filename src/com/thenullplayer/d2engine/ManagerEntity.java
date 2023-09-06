@@ -4,9 +4,9 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class ManagerEntity
+public class ManagerEntity implements Manager
 {
-	private final int BATCH_SIZE = 10;
+	private final int BATCH_SIZE = 16;
 
 	private static ManagerEntity manager;
 

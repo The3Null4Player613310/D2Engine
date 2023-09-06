@@ -19,22 +19,25 @@ public class EntityAnimal extends EntityLiving
 					{0,0,1,1,0,1,0,1,1,0,1,0,0,0,0,0},
 					{0,0,1,1,0,1,0,1,1,0,1,0,0,0,0,0},
 					{0,0,3,3,0,3,0,3,3,0,3,0,0,0,0,0},
-					}; 
+					}; 	
 
 	public EntityAnimal()
 	{
 		super();
-
+		
 		setSprite(new Sprite(SPRITE));
+		setAI(new AIWander(this));
 	}
 
 	int frame = 0;
 	public void think()
 	{
 		super.think();
-		if(frame == 0)
-			setVelocity(((int) (Math.random() * 3) - 1),((int) (Math.random() * 3) - 1));
-		frame += 1;
-		frame %= 4;
+		//if(frame == 0)
+		//	setVelocity(((int) (Math.random() * 3) - 1),((int) (Math.random() * 3) - 1));
+		//if(frame == (int) (Math.random()*8))
+		//	setVelocity(0,0);
+		//frame += 1;
+		//frame %= 8;
 	}
 }

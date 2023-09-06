@@ -4,13 +4,13 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
-class ManagerRender
+class ManagerRender implements Manager
 {
 	public static final int ROWS = 10;
 	public static final int COLS = 13;
 	public static final int SIZE = 16;
 	public static final int SCALE = 4;
-	public static final int BATCH_SIZE = 8;
+	public static final int BATCH_SIZE = 16;
 
 	private static ManagerRender manager;
 
@@ -40,8 +40,8 @@ class ManagerRender
 		spriteList = new ArrayList<>();
 		tileQueue = new PriorityQueue<Tile>((o1, o2) -> 
 		{
-			double m1 = Math.pow(Math.pow((o1.getX() - camera.getX()), 2) + Math.pow((o1.getY() - camera.getY()), 2), 0.5); 
-			double m2 = Math.pow(Math.pow((o2.getX() - camera.getX()), 2) + Math.pow((o2.getY() - camera.getY()), 2), 0.5); 
+			double m1 = Math.pow(Math.pow((o1.getX() - camera.getFocalX()), 2) + Math.pow((o1.getY() - camera.getFocalY()), 2), 0.5); 
+			double m2 = Math.pow(Math.pow((o2.getX() - camera.getFocalX()), 2) + Math.pow((o2.getY() - camera.getFocalY()), 2), 0.5); 
 			if(m1 > m2)
 				return 1;
 			else if(m1 < m2)
@@ -51,8 +51,8 @@ class ManagerRender
 		});
 		spriteQueue = new PriorityQueue<Sprite>((o1, o2) -> 
 		{
-			double m1 = Math.pow(Math.pow((o1.getX() - camera.getX()), 2) + Math.pow((o1.getY() - camera.getY()), 2), 0.5); 
-			double m2 = Math.pow(Math.pow((o2.getX() - camera.getX()), 2) + Math.pow((o2.getY() - camera.getY()), 2), 0.5); 
+			double m1 = Math.pow(Math.pow((o1.getX() - camera.getFocalX()), 2) + Math.pow((o1.getY() - camera.getFocalY()), 2), 0.5); 
+			double m2 = Math.pow(Math.pow((o2.getX() - camera.getFocalX()), 2) + Math.pow((o2.getY() - camera.getFocalY()), 2), 0.5); 
 			if(m1 > m2)
 				return 1;
 			else if(m1 < m2)
