@@ -6,8 +6,8 @@ import java.util.PriorityQueue;
 
 class ManagerRender implements Manager
 {
-	public static final int ROWS = 10;
-	public static final int COLS = 13;
+	public static final int ROWS = 10+1;
+	public static final int COLS = 13+1;
 	public static final int SIZE = 16;
 	public static final int SCALE = 4;
 	public static final int BATCH_SIZE = 16;
@@ -40,8 +40,11 @@ class ManagerRender implements Manager
 		spriteList = new ArrayList<>();
 		tileQueue = new PriorityQueue<Tile>((o1, o2) -> 
 		{
-			double m1 = Math.pow(Math.pow((o1.getX() - camera.getFocalX()), 2) + Math.pow((o1.getY() - camera.getFocalY()), 2), 0.5); 
-			double m2 = Math.pow(Math.pow((o2.getX() - camera.getFocalX()), 2) + Math.pow((o2.getY() - camera.getFocalY()), 2), 0.5); 
+			//int a1 = Math.abs((o1.getX()*SIZE) - camera.getFocalX()) * Math.abs((o1.getY()*SIZE) - camera.getFocalY());
+			//int a2 = Math.abs((o2.getX()*SIZE) - camera.getFocalX()) * Math.abs((o2.getY()*SIZE) - camera.getFocalY());
+			
+			double m1 = Math.pow(Math.pow((o1.getX()*SIZE - camera.getFocalX()), 2) + Math.pow((o1.getY()*SIZE - camera.getFocalY()), 2), 0.5); 
+			double m2 = Math.pow(Math.pow((o2.getX()*SIZE - camera.getFocalX()), 2) + Math.pow((o2.getY()*SIZE - camera.getFocalY()), 2), 0.5); 
 			if(m1 > m2)
 				return 1;
 			else if(m1 < m2)

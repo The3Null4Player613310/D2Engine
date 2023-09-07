@@ -8,6 +8,7 @@ src/com/thenullplayer/d2engine/Entity.java
 src/com/thenullplayer/d2engine/EntityLiving.java
 src/com/thenullplayer/d2engine/EntityAnimal.java
 src/com/thenullplayer/d2engine/EntityPlayer.java
+src/com/thenullplayer/d2engine/Song.java
 src/com/thenullplayer/d2engine/Manager.java
 src/com/thenullplayer/d2engine/ManagerConnection.java
 src/com/thenullplayer/d2engine/ManagerEntity.java

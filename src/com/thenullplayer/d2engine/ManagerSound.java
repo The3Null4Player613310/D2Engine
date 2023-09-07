@@ -17,6 +17,7 @@ import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Mixer;
 import javax.sound.sampled.SourceDataLine;
+import java.util.ArrayList;
 
 public class ManagerSound extends Thread implements Manager
 {
@@ -29,6 +30,8 @@ public class ManagerSound extends Thread implements Manager
 	private static final AudioFormat FORMAT = new AudioFormat(SAMPLE_RATE, BITS_PER_SAMPLE, CHANNEL_COUNT, true, false);
 	//private static final AudioFormat FORMAT = new AudioFormat(Encoding.PCM_FLOAT, SAMPLE_RATE, BITS_PER_SAMPLE, CHANNEL_COUNT, FRAME_SIZE, ((float) FRAMES), false);
  
+	private static final int SONG_RANDOM = -1;
+
 	private static final int FLAG_F0 = 0x01;
 	private static final int FLAG_F1 = 0x02;
 	private static final int FLAG_F2 = 0x04;
@@ -46,7 +49,7 @@ public class ManagerSound extends Thread implements Manager
 	private static final int F4 = 392;
 	private static final int F5 = 440;
 	private static final int F6 = 494;
-	private static final int F7 = 0;
+	private static final int F7 = 523;
 
 	private static final String DEFAULT = "default [default]";
 
@@ -61,10 +64,13 @@ public class ManagerSound extends Thread implements Manager
 	private volatile Mixer mixer;
 	private volatile SourceDataLine line;
 
-	private int[] song;
+	private ArrayList<Song> songList;
+	private Song song;
 
 	public ManagerSound()
 	{
+		songList = new ArrayList<>();
+
 		Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();
 		
 		for(int i=0; i<mixerInfo.length; i++)
@@ -105,92 +111,101 @@ public class ManagerSound extends Thread implements Manager
 			
 		}
 
+		File musicDir = new File(System.getProperty("user.dir") + File.separator + "assets" + File.separator + "sound" + File.separator + "music"); 
+
+		load(musicDir);
+
+		play(SONG_RANDOM);
+	}
+
+	private void load(File fileIn)
+	{
+		//System.out.println(fileIn);
+		if(fileIn.isDirectory())
+		{
+			String[] file = fileIn.list();
+			for(int i=0; i<file.length; i++)
+			{
+				File curFile = new File("" + fileIn + File.separator + file[i]);
+				load(curFile);
+			}
+		}
+		else if(fileIn.isFile())
+		{
+			try
+			{
+				Song curSong = new Song(fileIn);
+				addSong(curSong);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void addSong(Song songIn)
+	{
+		songList.add(songIn);
 	}
 
 	public void run()
 	{
 		isRunning = true;
 
-		//try
-		//{
-			byte[] data = new byte[bufferSize];
+		byte[] data = new byte[bufferSize];
 
-			int[] song = {
-				0x04, 0x04, 0x08, 0x10, 
-				0x10, 0x08, 0x04, 0x02, 
-				0x01, 0x01, 0x02, 0x04,
-				0x04, 0x02, 0x02,
-				0x04, 0x04, 0x08, 0x10,
-				0x10, 0x08, 0x04, 0x02,
-				0x01, 0x01, 0x02, 0x04, 
-				0x02, 0x01, 0x01, 
-				0x02, 0x02, 0x04, 0x01,
-				0x02, 0x08, 0x04, 0x01,
-				0x02, 0x08, 0x04, 0x02,
-				0x01, 0x02, 0x10, 
-				0x04, 0x04, 0x08, 0x10, 
-				0x10, 0x08, 0x04, 0x02,
-				0x01, 0x01, 0x02, 0x04,
-				0x02, 0x01, 0x01
-				};
-
-			long t = 0;
-			int beat = 0;
-			int chord = 0;
-			while(isRunning)
+		long t = 0;
+		int chord = 0;
+		while(isRunning)
+		{
+			for(int j=0; j<256; j++)
 			{
-				for(int j=0; j<256; j++)
+				if((t % (60 * 2 * SAMPLE_RATE/TEMPO)) == 0)
 				{
-					if((t % (60 * 2 * SAMPLE_RATE/TEMPO)) == 0)
-					{
-						chord = song[beat];
-						beat++;
-						beat%=song.length;
-					}
-						//chord = (int) (Byte.MAX_VALUE * Math.random());
-			
-					//t * ((double) 440 / SAMPLE_RATE) * (2 * Math.PI)
-					t++;
-			
-					short val = 0;
-			
-					if((chord & FLAG_F0) == FLAG_F0)
-						val += (short) (16 * Math.sin(t * ((double) F0 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
-					if((chord & FLAG_F1) == FLAG_F1)
-						val += (short) (16 * Math.sin(t * ((double) F1 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
-					if((chord & FLAG_F2) == FLAG_F2)
-						val += (short) (16 * Math.sin(t * ((double) F2 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
-					if((chord & FLAG_F3) == FLAG_F3)
-						val += (short) (16 * Math.sin(t * ((double) F3 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
-					if((chord & FLAG_F4) == FLAG_F4)
-						val += (short) (16 * Math.sin(t * ((double) F4 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
-					if((chord & FLAG_F5) == FLAG_F5)
-						val += (short) (16 * Math.sin(t * ((double) F5 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
-					if((chord & FLAG_F6) == FLAG_F6)
-						val += (short) (16 * Math.sin(t * ((double) F6 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
-					if((chord & FLAG_F7) == FLAG_F7)
-						val += (short) (16 * Math.sin(t * ((double) F7 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
-					
-					byte min = (byte) (val & 0xFF); 
-					byte maj = (byte) ((val >>> 8) & 0xFF);
-
-					for(int i=0; i<CHANNEL_COUNT; i++)
-					{
-						data[j+(CHANNEL_COUNT*i)+0] = min;
-						data[j+(CHANNEL_COUNT*i)+1] = maj;
-					}
+					if(song != null)
+						chord = song.getChord();
+					else
+						chord = 0x00;
 				}
-				line.write(data, 0, 256);
-				if(!line.isRunning())
-					line.start();
-				//line.drain();
+					//chord = (int) (Byte.MAX_VALUE * Math.random());
+		
+				//t * ((double) 440 / SAMPLE_RATE) * (2 * Math.PI)
+				t++;
+		
+				short val = 0;
+		
+				if((chord & FLAG_F0) == FLAG_F0)
+					val += (short) (16 * Math.sin(t * ((double) F0 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
+				if((chord & FLAG_F1) == FLAG_F1)
+					val += (short) (16 * Math.sin(t * ((double) F1 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
+				if((chord & FLAG_F2) == FLAG_F2)
+					val += (short) (16 * Math.sin(t * ((double) F2 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
+				if((chord & FLAG_F3) == FLAG_F3)
+					val += (short) (16 * Math.sin(t * ((double) F3 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
+				if((chord & FLAG_F4) == FLAG_F4)
+					val += (short) (16 * Math.sin(t * ((double) F4 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
+				if((chord & FLAG_F5) == FLAG_F5)
+					val += (short) (16 * Math.sin(t * ((double) F5 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
+				if((chord & FLAG_F6) == FLAG_F6)
+					val += (short) (16 * Math.sin(t * ((double) F6 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
+				if((chord & FLAG_F7) == FLAG_F7)
+					val += (short) (16 * Math.sin(t * ((double) F7 * 2 * Math.PI) / (CHANNEL_COUNT * SAMPLE_RATE)));
+				
+				byte min = (byte) (val & 0xFF); 
+				byte maj = (byte) ((val >>> 8) & 0xFF);
+					for(int i=0; i<CHANNEL_COUNT; i++)
+				{
+					data[j+(CHANNEL_COUNT*i)+0] = min;
+					data[j+(CHANNEL_COUNT*i)+1] = maj;
+				}
 			}
-		//}
-		//catch(LineUnavailableException e)
-		//{
-		//	e.printStackTrace();
-		//}
-
+			line.write(data, 0, 256);
+			if(!line.isRunning())
+				line.start();
+			//line.drain();
+		}
+	
 		if(line != null)
 		{
 			line.close();
@@ -201,42 +216,15 @@ public class ManagerSound extends Thread implements Manager
 	{
 	}
 
-	public void play()
+	public void play(int indexIn)
 	{
-	
-		//try
-		//{
-			String fpath = System.getProperty("user.dir") + "/data/sounds"; 
-			System.out.println(fpath);
-			File file = new File(fpath+"/horse.wav");
-			try
-			{
-				//FileInputStream fis = new FileInputStream(file);
-				//AudioFormat format = new AudioFormat(Encoding.PCM_UNSIGNED, SAMPLE_RATE, 32, 2, FRAME_SIZE, ((float) SAMPLE_RATE)/FRAME_SIZE, true); 
-				//AudioInputStream stream = new AudioInputStream(fis, format, 1000);
-				AudioInputStream stream = AudioSystem.getAudioInputStream(file); 
-				Clip clip = AudioSystem.getClip();
-				try
-				{
-					clip.open(stream);
-				}catch(IOException e)
-				{
-					e.printStackTrace();
-				}
-				clip.start();
-				try
-				{
-					Thread.sleep(1500);
-				}
-				catch(Exception e){};
-				clip.close();
-			}
-			catch(Exception e){};
-		//}
-		//catch(LineUnavailableException e)
-		//{
-		//	e.printStackTrace();
-		//}
+		int index;
+		if(indexIn == SONG_RANDOM)
+			index = (int) (Math.random() * songList.size());
+		else
+			index = indexIn;
+
+		song = songList.get(index);
 	}
 
 	public void tone(int frequencyIn, int durationIn)
@@ -276,35 +264,6 @@ public class ManagerSound extends Thread implements Manager
 			e.printStackTrace();
 		}
 
-	}
-
-	private class SoundStream extends InputStream
-	{
-		final int FREQUENCY = 440;
-
-		public SoundStream()
-		{
-		}
-
-		long offset = 0;
-		long sample = 0;
-		@Override
-		public int read()
-		{
-			int v = (int) (127 * Math.sin(((double) sample * FREQUENCY * (2 * Math.PI) / SAMPLE_RATE))); 
-			int b = 0xFF & (v >>> (8 * (3 - (offset % 4))));
-			if(offset == 3)
-			{
-				sample++;
-				//System.out.print(""+ v + " ");
-			}
-			else
-			{
-				//System.out.print("00");
-			}
-			offset = (offset+1)%4;
-			return b;
-		}
 	}
 
 	private class SoundListener implements LineListener
