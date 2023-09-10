@@ -2,12 +2,8 @@ package com.thenullplayer.d2engine;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.IOException;
 import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioFormat.Encoding;
+//import javax.sound.sampled.AudioFormat.Encoding;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -30,7 +26,10 @@ public class ManagerSound extends Thread implements Manager
 	private static final AudioFormat FORMAT = new AudioFormat(SAMPLE_RATE, BITS_PER_SAMPLE, CHANNEL_COUNT, true, false);
 	//private static final AudioFormat FORMAT = new AudioFormat(Encoding.PCM_FLOAT, SAMPLE_RATE, BITS_PER_SAMPLE, CHANNEL_COUNT, FRAME_SIZE, ((float) FRAMES), false);
  
-	private static final int SONG_RANDOM = -1;
+	public static final int FLAG_SONG_NONE     = 0x00;
+	public static final int FLAG_SONG_RAND     = 0x01;
+	public static final int FLAG_SONG_LOOP     = 0x02;
+	public static final int FLAG_SONG_LOOP_ONE = 0x06;
 
 	private static final int FLAG_F0 = 0x01;
 	private static final int FLAG_F1 = 0x02;
@@ -56,6 +55,8 @@ public class ManagerSound extends Thread implements Manager
 	private static ManagerSound manager;
 
 	private volatile boolean isRunning;
+
+	private volatile int songFlags;
 
 	private volatile int maxBufferSize;
 	private volatile int minBufferSize;
@@ -115,7 +116,8 @@ public class ManagerSound extends Thread implements Manager
 
 		load(musicDir);
 
-		play(SONG_RANDOM);
+		setFlags(FLAG_SONG_LOOP | FLAG_SONG_RAND);
+		play(0);
 	}
 
 	private void load(File fileIn)
@@ -163,6 +165,11 @@ public class ManagerSound extends Thread implements Manager
 			{
 				if((t % (60 * 2 * SAMPLE_RATE/TEMPO)) == 0)
 				{
+					if((song != null) && (song.isDone()))
+					{
+						next();
+					}
+
 					if(song != null)
 						chord = song.getChord();
 					else
@@ -216,15 +223,80 @@ public class ManagerSound extends Thread implements Manager
 	{
 	}
 
-	public void play(int indexIn)
+	public void setFlags(int flagsIn)
+	{
+		songFlags = flagsIn;
+	}
+
+	public void setRandom(boolean isRandomIn)
+	{
+		if(isRandomIn)
+		{
+			songFlags = songFlags | FLAG_SONG_RAND;
+		}
+		else
+		{
+			songFlags = songFlags & (~ FLAG_SONG_RAND);
+		}
+
+	}
+
+	public void setRepeat(boolean isRepeatingIn)
+	{
+		if(isRepeatingIn)
+		{
+			songFlags = songFlags | FLAG_SONG_LOOP;
+		}
+		else
+		{
+			songFlags = songFlags & (~ FLAG_SONG_LOOP_ONE);
+		}		
+	}
+
+	public void setRepeatOne(boolean isRepeatingIn)
+	{
+		if(isRepeatingIn)
+		{
+			songFlags = songFlags | FLAG_SONG_LOOP_ONE;
+		}
+		else
+		{
+			songFlags = songFlags & (~ FLAG_SONG_LOOP_ONE);
+		}
+	}
+
+	public void next()
 	{
 		int index;
-		if(indexIn == SONG_RANDOM)
-			index = (int) (Math.random() * songList.size());
-		else
-			index = indexIn;
 
-		song = songList.get(index);
+		if((songFlags & FLAG_SONG_RAND) == FLAG_SONG_RAND)
+		{
+			index = (int) (Math.random() * songList.size());
+	
+			play(index);	
+			return;
+		}
+
+		if((songFlags & FLAG_SONG_LOOP) == FLAG_SONG_LOOP)
+		{
+			index = songList.indexOf(song);
+			
+			if(!((songFlags & FLAG_SONG_LOOP_ONE) == FLAG_SONG_LOOP_ONE))
+			{
+				index++;
+			}
+
+			play(index);
+			return;
+		}
+
+		song = null;
+	}
+
+	public void play(int indexIn)
+	{	
+		song = songList.get(indexIn);
+		song.reset();
 	}
 
 	public void tone(int frequencyIn, int durationIn)

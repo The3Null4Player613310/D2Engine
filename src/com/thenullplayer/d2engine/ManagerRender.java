@@ -171,7 +171,7 @@ class ManagerRender implements Manager
 					tileQueue.add(tBatch[i][j]);
 				}
 			}
-		}	
+		}
 
 	}
 

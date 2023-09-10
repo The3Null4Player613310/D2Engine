@@ -1,17 +1,20 @@
 package com.thenullplayer.d2engine;
 
+import java.io.File;
 import java.net.InetAddress;
 
 public class Client extends Thread implements Context
 {
-	private final int FPS = 22;//15;
-	private final long PTIME = 1000/FPS;
+	private static final int FPS = 45;//15;
+	private static final long PTIME = 1000/FPS;
 
-	private final int MASK_M = 15;
-	private final int FLAG_U = 1;
-	private final int FLAG_D = 2;
-	private final int FLAG_L = 4;
-	private final int FLAG_R = 8;
+	private static final int MASK_M = 15;
+	private static final int FLAG_U = 1;
+	private static final int FLAG_D = 2;
+	private static final int FLAG_L = 4;
+	private static final int FLAG_R = 8;
+
+	public static final String ASSET_DIR = System.getProperty("user.dir") + File.separator + "assets" + File.separator; 
 
 	private static Window window;
 	private static Client client;
@@ -57,12 +60,36 @@ public class Client extends Thread implements Context
 		renderManager.follow(player);
 		renderManager.addSprite(player.getSprite());
 
-		for(int i=0; i<15; i++)
+		for(int i=0; i<5; i++)
 		{
 			EntityAnimal animal = new EntityAnimal();
 			animal.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
 			entityManager.addEntity(animal);
 			renderManager.addSprite(animal.getSprite());
+		}
+
+		for(int i=0; i<5; i++)
+		{
+			EntityCat cat = new EntityCat();
+			cat.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
+			entityManager.addEntity(cat);
+			renderManager.addSprite(cat.getSprite());
+		}
+
+		for(int i=0; i<5; i++)
+		{
+			EntityBat bat = new EntityBat();
+			bat.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
+			entityManager.addEntity(bat);
+			renderManager.addSprite(bat.getSprite());
+		}
+
+		for(int i=0; i<5; i++)
+		{
+			EntityZombie zombie = new EntityZombie();
+			zombie.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
+			entityManager.addEntity(zombie);
+			renderManager.addSprite(zombie.getSprite());
 		}
 
 		for(int i=0; i<10; i++)

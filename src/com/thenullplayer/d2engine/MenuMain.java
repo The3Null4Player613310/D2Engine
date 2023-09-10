@@ -11,6 +11,7 @@ public class MenuMain extends Menu
 	JButton spButton;
 	JButton mpButton;
 	JButton opButton;
+	JButton qgButton;
 
 	public MenuMain(Window windowIn)
 	{
@@ -42,6 +43,11 @@ public class MenuMain extends Menu
 		opButton.addActionListener(new OPListener(this));
 		opButton.setText("Options");
 		this.add(opButton);
+
+		qgButton = new JButton();
+		qgButton.addActionListener(new QGListener(this));
+		qgButton.setText("Quit Game");
+		this.add(qgButton);
 	}
 
 	private class SPListener implements ActionListener
@@ -90,6 +96,22 @@ public class MenuMain extends Menu
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
 			new MenuOption(menu.window, menu);
+		}
+	}
+
+	private class QGListener implements ActionListener
+	{
+		Menu menu;
+
+		QGListener(Menu menuIn)
+		{
+			menu = menuIn;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent actionEventIn)
+		{
+			menu.window.quit();
 		}
 	}
 }

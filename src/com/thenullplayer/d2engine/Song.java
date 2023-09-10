@@ -8,6 +8,9 @@ import java.io.IOException;
 public class Song
 {
 
+	private boolean isLooped;
+	private boolean isDone;
+
 	private int index;
 	private int[] song;
 
@@ -18,6 +21,21 @@ public class Song
 		
 		load(fileIn);
 	}
+
+	public void setIsLooped(boolean isLoopedIn)
+	{
+		isLooped = isLoopedIn;
+	}
+
+	public boolean isLooped()
+	{
+		return isLooped;
+	}
+
+	public boolean isDone()
+	{
+		return isDone;
+	} 
 
 	private void load(File fileIn) throws FileNotFoundException
 	{
@@ -85,12 +103,15 @@ public class Song
 	public void reset()
 	{
 		index = 0;
+		isDone = false;
 	}
 
 	public int getChord()
 	{
 		int chord = song[index];
 		index = ((index+1) % song.length);
+		if((isLooped == false) && (index == 0))
+			isDone = true;
 		return chord;
 	}
 }

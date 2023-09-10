@@ -13,6 +13,8 @@ build: clean
 run: build
 	java -classpath out com.thenullplayer.d2engine.Main;
 
+sprite-editor: build
+	java -classpath out com.thenullplayer.d2engine.EditorSprite;
 
 clean:
 	rm -rf ./out/com/thenullplayer/d2engine/;
