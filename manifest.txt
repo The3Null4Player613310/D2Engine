@@ -18,6 +18,7 @@ src/com/thenullplayer/d2engine/Song.java
 src/com/thenullplayer/d2engine/Manager.java
 src/com/thenullplayer/d2engine/ManagerConnection.java
 src/com/thenullplayer/d2engine/ManagerEntity.java
+src/com/thenullplayer/d2engine/ManagerMap.java
 src/com/thenullplayer/d2engine/ManagerRender.java
 src/com/thenullplayer/d2engine/ManagerSound.java
 src/com/thenullplayer/d2engine/Client.java

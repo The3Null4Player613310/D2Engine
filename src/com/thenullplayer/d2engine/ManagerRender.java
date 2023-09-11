@@ -13,8 +13,9 @@ class ManagerRender implements Manager
 	public static final int BATCH_SIZE = 16;
 
 	private static ManagerRender manager;
-
+	
 	private Camera camera;
+	private ManagerMap mapManager;
 
 	//private int x = 0;
 	//private int y = 0;
@@ -36,22 +37,24 @@ class ManagerRender implements Manager
 		camera = new Camera();
 		camera.setPos(0,0); //-104, -80);
 
+		mapManager = ManagerMap.getInstance();
+
 		tileList = new ArrayList<>();
 		spriteList = new ArrayList<>();
-		tileQueue = new PriorityQueue<Tile>((o1, o2) -> 
-		{
-			//int a1 = Math.abs((o1.getX()*SIZE) - camera.getFocalX()) * Math.abs((o1.getY()*SIZE) - camera.getFocalY());
-			//int a2 = Math.abs((o2.getX()*SIZE) - camera.getFocalX()) * Math.abs((o2.getY()*SIZE) - camera.getFocalY());
-			
-			double m1 = Math.pow(Math.pow((o1.getX()*SIZE - camera.getFocalX()), 2) + Math.pow((o1.getY()*SIZE - camera.getFocalY()), 2), 0.5); 
-			double m2 = Math.pow(Math.pow((o2.getX()*SIZE - camera.getFocalX()), 2) + Math.pow((o2.getY()*SIZE - camera.getFocalY()), 2), 0.5); 
-			if(m1 > m2)
-				return 1;
-			else if(m1 < m2)
-				return -1;
-			else
-				return 0; 
-		});
+		//tileQueue = new PriorityQueue<Tile>((o1, o2) -> 
+		//{
+		//	//int a1 = Math.abs((o1.getX()*SIZE) - camera.getFocalX()) * Math.abs((o1.getY()*SIZE) - camera.getFocalY());
+		//	//int a2 = Math.abs((o2.getX()*SIZE) - camera.getFocalX()) * Math.abs((o2.getY()*SIZE) - camera.getFocalY());
+		//	
+		//	double m1 = Math.pow(Math.pow((o1.getX()*SIZE - camera.getFocalX()), 2) + Math.pow((o1.getY()*SIZE - camera.getFocalY()), 2), 0.5); 
+		//	double m2 = Math.pow(Math.pow((o2.getX()*SIZE - camera.getFocalX()), 2) + Math.pow((o2.getY()*SIZE - camera.getFocalY()), 2), 0.5); 
+		//	if(m1 > m2)
+		//		return 1;
+		//	else if(m1 < m2)
+		//		return -1;
+		//	else
+		//		return 0; 
+		//});
 		spriteQueue = new PriorityQueue<Sprite>((o1, o2) -> 
 		{
 			double m1 = Math.pow(Math.pow((o1.getX() - camera.getFocalX()), 2) + Math.pow((o1.getY() - camera.getFocalY()), 2), 0.5); 
@@ -90,7 +93,7 @@ class ManagerRender implements Manager
 	public void addTile(Tile tileIn)
 	{
 		tileList.add(tileIn);
-		tileQueue.add(tileIn);
+		//tileQueue.add(tileIn);
 	}
 
 	public void removeTile(Tile tileIn)
@@ -152,27 +155,15 @@ class ManagerRender implements Manager
 			sprite[i] = spriteBuffer.poll();			
 		}
 
-		Tile[][] tBatch = new Tile[ROWS][COLS];
+		int x = camera.getX()/16;
+		int y = camera.getY()/16;
 		for(int i=0; i<ROWS; i++)
 		{
 			for(int j=0; j<COLS; j++)
 			{
-				tBatch[i][j] = tileQueue.poll();
+				tile[i][j] = mapManager.getTile(x+j,y-i+1);
 			}
 		}
-		
-		for(int i=0; i<ROWS; i++)
-		{
-			for(int j=0; j<COLS; j++)
-			{
-				if((tBatch[i] != null) && tileList.contains(tBatch[i][j]))
-				{
-					tile[i][j] = tBatch[i][j];
-					tileQueue.add(tBatch[i][j]);
-				}
-			}
-		}
-
 	}
 
 	public void draw(Graphics gIn)

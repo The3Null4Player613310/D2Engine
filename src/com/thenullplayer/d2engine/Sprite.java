@@ -14,7 +14,7 @@ public class Sprite implements Point
 	public static final Color BG_COLOR = new Color(0,0,0,0);
 	public static final byte PALLET_MASK = 3;
 	
-	public static final String SPRITE_DIR = Client.ASSET_DIR + File.separator + "sprite" + File.separator;
+	public static final String DIR_SPRITE = Client.DIR_SPRITE;
 
 	private final int[] HEADER_IDENT = {0x53, 0x50, 0x52};
 	
@@ -152,7 +152,7 @@ public class Sprite implements Point
 
 			for(int i=0; i<data.length; i++)
 			{
-				for(int j=0; j<data.length; j++)
+				for(int j=0; j<data[i].length; j++)
 				{
 					sprite[i][j] = data[i][j];
 				}

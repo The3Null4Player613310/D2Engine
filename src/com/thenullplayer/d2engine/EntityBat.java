@@ -13,7 +13,7 @@ public class EntityBat extends EntityAnimal
 		
 		try
 		{
-			setSprite(new Sprite(new File(Sprite.SPRITE_DIR + "bat.dat")));
+			setSprite(new Sprite(new File(Sprite.DIR_SPRITE + "bat.dat")));
 		}
 		catch(Exception e){}
 	}

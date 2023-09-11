@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class EditorSprite extends JFrame
 	private final String TITLE = "Sprite Editor";
 	private final Dimension SIZE = new Dimension(WIDTH, HEIGHT);
 
-	private final String SPRITE_DIR = Client.ASSET_DIR + "sprite" + File.separator; 
+	private final String DIR_SPRITE = Client.DIR_SPRITE; 
 
 	final static double BAR_SCALE = (9d/32d);
 	final static int SLIDER_MINOR = 1;
@@ -37,10 +38,12 @@ public class EditorSprite extends JFrame
 	final static int SLIDER_INC = 1;
 	
 	final static int SPRITE_WIDTH = 16;
-	final static int SPRITE_HEIGHT = 16;
+	final static int SPRITE_HEIGHT =16;
 	final static int SPRITE_SCALE = 24;
 
 	final static int MASK_PALLET = 0x03;
+
+	final static int[] HEADER_IDENT = {0x53, 0x50, 0x52};
 
 	FlowLayout layout;
 
@@ -184,16 +187,101 @@ public class EditorSprite extends JFrame
 		this.setVisible(true);
 	}
 
-	public void load()
+	public void load() throws Exception
 	{
 		String fileName = fileNameField.getText();
+		
+		File file = new File(DIR_SPRITE + fileName);
+		
+		if(file.exists() && file.isFile())
+		{
+			
+			try
+			{
+				FileInputStream stream = new FileInputStream(file);
+				try
+				{
+					int headerSize = stream.read();
+					int[] header = new int[headerSize];
+					if(headerSize >= 0x10)
+						header[0] = headerSize;
+					else
+						throw new Exception();
+					
+					for(int i=1; i<header[0]; i++)
+					{
+						header[i] = stream.read();
+	
+						if((i == 1) && (header[i] != HEADER_IDENT[0]))
+							throw new Exception();
+						if((i == 2) && (header[i] != HEADER_IDENT[1]))
+							throw new Exception();
+						if((i == 3) && (header[i] != HEADER_IDENT[2]))
+							throw new Exception();
+						if((i == 4) && (header[i] != 0x10))
+							throw new Exception();
+						if((i == 5) && (header[i] != 0x10))
+							throw new Exception();
+						if((i == (header[0]-1)) && (header[i] != 0xFF))
+							throw new Exception();
+					}
+
+					primaryColorSliderR.setValue(header[6]);
+					primaryColorSliderG.setValue(header[7]);
+					primaryColorSliderB.setValue(header[8]);
+					secondaryColorSliderR.setValue(header[9]);
+					secondaryColorSliderG.setValue(header[10]);
+					secondaryColorSliderB.setValue(header[11]);
+					ternaryColorSliderR.setValue(header[12]);
+					ternaryColorSliderG.setValue(header[13]);
+					ternaryColorSliderB.setValue(header[14]);
+	
+					byte[][] data = new byte[header[4]][header[5]];
+					for(int i=0; i < header[4]; i++)
+					{
+						for(int j=0; j < header[5]; j++)
+						{
+							data[i][j] = (byte) (stream.read() & 0xFF);
+						}
+					}
+
+					for(int i=0; i<data.length; i++)
+					{
+						for(int j=0; j<data[i].length; j++)
+						{
+							sprite[i][j] = data[i][j];
+						}
+					}
+			
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+			
+				try
+				{
+					stream.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			catch(FileNotFoundException e)
+			{
+				e.printStackTrace();
+			}
+		}
+
+		updateColors();
 	}
 
 	public void save()
 	{
 		String fileName = fileNameField.getText();
 
-		File file = new File(SPRITE_DIR + fileName);
+		File file = new File(DIR_SPRITE + fileName);
 		
 		if(file.exists() && file.isFile())
 			file.delete();
@@ -209,9 +297,9 @@ public class EditorSprite extends JFrame
 			{
 				stream.write(0x10);
 		
-				stream.write(0x53);
-				stream.write(0x50);
-				stream.write(0x52);
+				stream.write(HEADER_IDENT[0]);
+				stream.write(HEADER_IDENT[1]);
+				stream.write(HEADER_IDENT[2]);
 		
 				stream.write(SPRITE_WIDTH);
 				stream.write(SPRITE_HEIGHT);
@@ -284,7 +372,15 @@ public class EditorSprite extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent actionEventIn)
 		{
-			editor.load();
+
+			try
+			{
+				editor.load();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -381,6 +477,20 @@ public class EditorSprite extends JFrame
 					this.add(buttonGrid[i][j]);
 				}
 			}
+		}
+
+		@Override
+		public void paint(Graphics gIn)
+		{
+			super.paint(gIn);
+
+			for(int i=0; i<buttonGrid.length; i++)
+			{
+				for(int j=0; j<buttonGrid[i].length; j++)
+				{
+					buttonGrid[i][j].setBackground(editor.pallet[editor.sprite[i][j]]);
+				}
+			}			
 		}
 
 		private class ButtonListener implements ActionListener

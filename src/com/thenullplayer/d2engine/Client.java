@@ -14,7 +14,13 @@ public class Client extends Thread implements Context
 	private static final int FLAG_L = 4;
 	private static final int FLAG_R = 8;
 
-	public static final String ASSET_DIR = System.getProperty("user.dir") + File.separator + "assets" + File.separator; 
+	private static final String DIR_MAIN  = System.getProperty("user.dir") + File.separator;
+	public static final String DIR_ASSET  = DIR_MAIN  + "assets" + File.separator; 
+	public static final String DIR_SOUND  = DIR_ASSET + "sound"  + File.separator;
+	public static final String DIR_MUSIC  = DIR_SOUND + "music"  + File.separator;
+	public static final String DIR_MAP    = DIR_ASSET + "map"    + File.separator;
+	public static final String DIR_SPRITE = DIR_ASSET + "sprite" + File.separator;
+	public static final String DIR_TILE   = DIR_ASSET + "tile"   + File.separator;
 
 	private static Window window;
 	private static Client client;
@@ -60,7 +66,7 @@ public class Client extends Thread implements Context
 		renderManager.follow(player);
 		renderManager.addSprite(player.getSprite());
 
-		for(int i=0; i<5; i++)
+		for(int i=0; i<1; i++)
 		{
 			EntityAnimal animal = new EntityAnimal();
 			animal.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
@@ -68,7 +74,7 @@ public class Client extends Thread implements Context
 			renderManager.addSprite(animal.getSprite());
 		}
 
-		for(int i=0; i<5; i++)
+		for(int i=0; i<1; i++)
 		{
 			EntityCat cat = new EntityCat();
 			cat.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
@@ -76,7 +82,7 @@ public class Client extends Thread implements Context
 			renderManager.addSprite(cat.getSprite());
 		}
 
-		for(int i=0; i<5; i++)
+		for(int i=0; i<1; i++)
 		{
 			EntityBat bat = new EntityBat();
 			bat.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
@@ -84,23 +90,23 @@ public class Client extends Thread implements Context
 			renderManager.addSprite(bat.getSprite());
 		}
 
-		for(int i=0; i<5; i++)
+		for(int i=0; i<10; i++)
 		{
 			EntityZombie zombie = new EntityZombie();
-			zombie.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
+			zombie.setPos((int) (Math.random()*25*16), (int) (Math.random()*25*16));
 			entityManager.addEntity(zombie);
 			renderManager.addSprite(zombie.getSprite());
 		}
 
-		for(int i=0; i<10; i++)
-		{
-			for(int j=0; j<13; j++)
-			{
-				Tile tile = new Tile();
-				tile.setPos(j, i-9);
-				renderManager.addTile(tile);
-			}
-		}
+		//for(int i=0; i<10; i++)
+		//{
+		//	for(int j=0; j<13; j++)
+		//	{
+		//		Tile tile = new Tile();
+		//		tile.setPos(j, i-9);
+		//		renderManager.addTile(tile);
+		//	}
+		//}
 		this.start();
 	}
 

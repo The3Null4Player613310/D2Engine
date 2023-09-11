@@ -6,5 +6,6 @@ public class EntityMonster extends EntityLiving
 	public EntityMonster()
 	{
 		super();
+		setAI(new AIWander(this));
 	}
 }

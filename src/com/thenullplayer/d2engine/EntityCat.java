@@ -10,7 +10,7 @@ public class EntityCat extends EntityAnimal
 		
 		try
 		{
-			setSprite(new Sprite(new File(Sprite.SPRITE_DIR + "cat.dat")));
+			setSprite(new Sprite(new File(Sprite.DIR_SPRITE + "cat.dat")));
 		}
 		catch(Exception e)
 		{

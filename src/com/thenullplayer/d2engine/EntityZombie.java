@@ -9,7 +9,7 @@ public class EntityZombie extends EntityMonster
 	{
 		try
 		{
-			setSprite(new Sprite(new File(Sprite.SPRITE_DIR + "zombie.dat")));
+			setSprite(new Sprite(new File(Sprite.DIR_SPRITE + "zombie.dat")));
 		}
 		catch(Exception e){}
 	}

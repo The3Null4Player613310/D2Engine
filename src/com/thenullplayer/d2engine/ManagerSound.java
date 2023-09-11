@@ -26,6 +26,8 @@ public class ManagerSound extends Thread implements Manager
 	private static final AudioFormat FORMAT = new AudioFormat(SAMPLE_RATE, BITS_PER_SAMPLE, CHANNEL_COUNT, true, false);
 	//private static final AudioFormat FORMAT = new AudioFormat(Encoding.PCM_FLOAT, SAMPLE_RATE, BITS_PER_SAMPLE, CHANNEL_COUNT, FRAME_SIZE, ((float) FRAMES), false);
  
+	public static final String DIR_MUSIC = Client.DIR_MUSIC; 
+
 	public static final int FLAG_SONG_NONE     = 0x00;
 	public static final int FLAG_SONG_RAND     = 0x01;
 	public static final int FLAG_SONG_LOOP     = 0x02;
@@ -112,12 +114,12 @@ public class ManagerSound extends Thread implements Manager
 			
 		}
 
-		File musicDir = new File(System.getProperty("user.dir") + File.separator + "assets" + File.separator + "sound" + File.separator + "music"); 
+		File musicDir = new File(DIR_MUSIC); 
 
 		load(musicDir);
 
 		setFlags(FLAG_SONG_LOOP | FLAG_SONG_RAND);
-		play(0);
+		next();
 	}
 
 	private void load(File fileIn)
