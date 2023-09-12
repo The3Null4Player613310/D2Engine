@@ -12,10 +12,10 @@ import javax.swing.SpringLayout;
 
 public class Window extends JFrame
 {
-	private final int WIDTH = 800; 
-	private final int HEIGHT = 600;
-	private final String TITLE = "D2Engine";
-	public final Dimension SIZE = new Dimension(WIDTH, HEIGHT);
+	public static final int WIDTH = 800; 
+	public static final int HEIGHT = 600;
+	private static final String TITLE = "D2Engine";
+	public static final Dimension SIZE = new Dimension(WIDTH, HEIGHT);
 	
 	private Client client;
 	private SpringLayout layout;

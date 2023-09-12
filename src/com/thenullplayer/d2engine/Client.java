@@ -61,7 +61,7 @@ public class Client extends Thread implements Context
 
 		player = new EntityPlayer();
 		//entity.setVelocity(1,1);
-		player.setPos(85,-56);
+		player.setPos(85,56);
 		entityManager.addEntity(player);
 		renderManager.follow(player);
 		renderManager.addSprite(player.getSprite());

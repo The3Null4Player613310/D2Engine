@@ -33,6 +33,7 @@ public class EditorSprite extends JFrame
 
 	final static double BAR_SCALE = (9d/32d);
 	final static int SLIDER_MINOR = 1;
+	final static int SLIDER_MAJOR = 32;
 	final static int SLIDER_MIN = 0;
 	final static int SLIDER_MAX = 255;
 	final static int SLIDER_INC = 1;
@@ -108,6 +109,8 @@ public class EditorSprite extends JFrame
 		primaryColorSliderR.setMinimum(SLIDER_MIN);
 		primaryColorSliderR.setMaximum(SLIDER_MAX);
 		primaryColorSliderR.setMinorTickSpacing(SLIDER_MINOR);
+		primaryColorSliderR.setMajorTickSpacing(SLIDER_MAJOR);
+		primaryColorSliderR.setPaintTicks(true);
 		primaryColorSliderR.addChangeListener(barListener);
 		this.add(primaryColorSliderR);
 
@@ -116,6 +119,8 @@ public class EditorSprite extends JFrame
 		primaryColorSliderG.setMinimum(SLIDER_MIN);
 		primaryColorSliderG.setMaximum(SLIDER_MAX);
 		primaryColorSliderG.setMinorTickSpacing(SLIDER_MINOR);
+		primaryColorSliderG.setMajorTickSpacing(SLIDER_MAJOR);
+		primaryColorSliderG.setPaintTicks(true);
 		primaryColorSliderG.addChangeListener(barListener);
 		this.add(primaryColorSliderG);
 
@@ -124,6 +129,8 @@ public class EditorSprite extends JFrame
 		primaryColorSliderB.setMinimum(SLIDER_MIN);
 		primaryColorSliderB.setMaximum(SLIDER_MAX);
 		primaryColorSliderB.setMinorTickSpacing(SLIDER_MINOR);
+		primaryColorSliderB.setMajorTickSpacing(SLIDER_MAJOR);
+		primaryColorSliderB.setPaintTicks(true);
 		primaryColorSliderB.addChangeListener(barListener);
 		this.add(primaryColorSliderB);
 		
@@ -136,6 +143,8 @@ public class EditorSprite extends JFrame
 		secondaryColorSliderR.setMinimum(SLIDER_MIN);
 		secondaryColorSliderR.setMaximum(SLIDER_MAX);
 		secondaryColorSliderR.setMinorTickSpacing(SLIDER_MINOR);
+		secondaryColorSliderR.setMajorTickSpacing(SLIDER_MAJOR);
+		secondaryColorSliderR.setPaintTicks(true);
 		secondaryColorSliderR.addChangeListener(barListener);
 		this.add(secondaryColorSliderR);
 
@@ -144,6 +153,8 @@ public class EditorSprite extends JFrame
 		secondaryColorSliderG.setMinimum(SLIDER_MIN);
 		secondaryColorSliderG.setMaximum(SLIDER_MAX);
 		secondaryColorSliderG.setMinorTickSpacing(SLIDER_MINOR);
+		secondaryColorSliderG.setMajorTickSpacing(SLIDER_MAJOR);
+		secondaryColorSliderG.setPaintTicks(true);
 		secondaryColorSliderG.addChangeListener(barListener);
 		this.add(secondaryColorSliderG);
 
@@ -152,6 +163,8 @@ public class EditorSprite extends JFrame
 		secondaryColorSliderB.setMinimum(SLIDER_MIN);
 		secondaryColorSliderB.setMaximum(SLIDER_MAX);
 		secondaryColorSliderB.setMinorTickSpacing(SLIDER_MINOR);
+		secondaryColorSliderB.setMajorTickSpacing(SLIDER_MAJOR);
+		secondaryColorSliderB.setPaintTicks(true);
 		secondaryColorSliderB.addChangeListener(barListener);
 		this.add(secondaryColorSliderB);
 		
@@ -164,6 +177,8 @@ public class EditorSprite extends JFrame
 		ternaryColorSliderR.setMinimum(SLIDER_MIN);
 		ternaryColorSliderR.setMaximum(SLIDER_MAX);
 		ternaryColorSliderR.setMinorTickSpacing(SLIDER_MINOR);
+		ternaryColorSliderR.setMajorTickSpacing(SLIDER_MAJOR);
+		ternaryColorSliderR.setPaintTicks(true);
 		ternaryColorSliderR.addChangeListener(barListener);
 		this.add(ternaryColorSliderR);
 
@@ -172,6 +187,8 @@ public class EditorSprite extends JFrame
 		ternaryColorSliderG.setMinimum(SLIDER_MIN);
 		ternaryColorSliderG.setMaximum(SLIDER_MAX);
 		ternaryColorSliderG.setMinorTickSpacing(SLIDER_MINOR);
+		ternaryColorSliderG.setMajorTickSpacing(SLIDER_MAJOR);
+		ternaryColorSliderG.setPaintTicks(true);
 		ternaryColorSliderG.addChangeListener(barListener);
 		this.add(ternaryColorSliderG);
 
@@ -180,6 +197,8 @@ public class EditorSprite extends JFrame
 		ternaryColorSliderB.setMinimum(SLIDER_MIN);
 		ternaryColorSliderB.setMaximum(SLIDER_MAX);
 		ternaryColorSliderB.setMinorTickSpacing(SLIDER_MINOR);
+		ternaryColorSliderB.setMajorTickSpacing(SLIDER_MAJOR);
+		ternaryColorSliderB.setPaintTicks(true);
 		ternaryColorSliderB.addChangeListener(barListener);
 		this.add(ternaryColorSliderB);
 

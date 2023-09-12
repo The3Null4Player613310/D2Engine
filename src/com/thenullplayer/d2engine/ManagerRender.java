@@ -6,6 +6,8 @@ import java.util.PriorityQueue;
 
 class ManagerRender implements Manager
 {
+	public static final int WIDTH = Window.WIDTH;
+	public static final int HEIGHT = Window.HEIGHT;
 	public static final int ROWS = 10+1;
 	public static final int COLS = 13+1;
 	public static final int SIZE = 16;
@@ -35,7 +37,7 @@ class ManagerRender implements Manager
 	private ManagerRender()
 	{
 		camera = new Camera();
-		camera.setPos(0,0); //-104, -80);
+		camera.setPos(0, HEIGHT/SCALE); //-104, -80);
 
 		mapManager = ManagerMap.getInstance();
 
