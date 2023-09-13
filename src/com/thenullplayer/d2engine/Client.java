@@ -5,8 +5,8 @@ import java.net.InetAddress;
 
 public class Client extends Thread implements Context
 {
-	private static final int FPS = 45;//15;
-	private static final long PTIME = 1000/FPS;
+	private static final int FPS = 30;//15;
+	private static final long PTIME = (1000 * 1000 * 1000)/FPS;
 
 	private static final int MASK_M = 15;
 	private static final int FLAG_U = 1;
@@ -30,9 +30,13 @@ public class Client extends Thread implements Context
 	private volatile boolean isConnected;
 	private volatile boolean isPaused;
 
-	private long startTime = 0;
-	private long endTime = 0;
-	private long delayTime = 0;
+	private long lTime = 0;
+	private long cTime = 0;
+	private long delta = 0;
+
+	//private long curTime = 0;
+	//private long lastTime = 0;
+	//private long frame = 0;
 
 	private int moveFlags;
 
@@ -138,16 +142,31 @@ public class Client extends Thread implements Context
 				}
 				catch(Exception e){}
 			}	
-			startTime = System.currentTimeMillis();
-			think();
-			window.repaint();
-			endTime = System.currentTimeMillis();
-			delayTime = Math.max(PTIME - (endTime - startTime), 0);
-			try
+			//startTime = System.currentTimeMillis();
+			cTime = System.nanoTime();
+			delta += cTime-lTime;
+			lTime = cTime;
+			if(delta / PTIME > 1)
 			{
-				Thread.sleep(delayTime);
+				think();
+				window.repaint();
+				//frame++;
+				//curTime = System.currentTimeMillis();
+				//if((curTime - lastTime) > 1000)
+				//{
+				//	System.out.println(frame);
+				//	lastTime = curTime;
+				//	frame = 0;
+				//}
+				delta -= PTIME;
 			}
-			catch(Exception e){}
+			//endTime = System.currentTimeMillis();
+			//delayTime = Math.max(PTIME - (endTime - startTime), 0);
+			//try
+			//{
+			//	Thread.sleep(delayTime);
+			//}
+			//catch(Exception e){}
 		}
 		this.destroy();
 	}

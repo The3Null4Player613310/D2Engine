@@ -34,6 +34,11 @@ public class ManagerMap implements Manager
 			x+=MAP_WIDTH;
 		if(y<0)
 			y+=MAP_HEIGHT;
+
+		if(y >= map.length)
+			y-=MAP_HEIGHT;
+		if(x >= map[y].length)
+			x-=MAP_WIDTH;
 		
 		return map[y][x];
 	}
