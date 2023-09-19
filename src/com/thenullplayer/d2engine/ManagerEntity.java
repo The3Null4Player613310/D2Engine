@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 public class ManagerEntity implements Manager
 {
-	private final int BATCH_SIZE = 16;
+	private final int BATCH_SIZE = 64;
 
 	private static ManagerEntity manager;
 

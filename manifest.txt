@@ -11,6 +11,7 @@ src/com/thenullplayer/d2engine/EntityLiving.java
 src/com/thenullplayer/d2engine/EntityAnimal.java
 src/com/thenullplayer/d2engine/EntityBat.java
 src/com/thenullplayer/d2engine/EntityCat.java
+src/com/thenullplayer/d2engine/EntityDog.java
 src/com/thenullplayer/d2engine/EntityMonster.java
 src/com/thenullplayer/d2engine/EntityZombie.java
 src/com/thenullplayer/d2engine/EntityPlayer.java

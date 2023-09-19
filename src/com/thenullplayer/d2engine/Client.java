@@ -5,7 +5,7 @@ import java.net.InetAddress;
 
 public class Client extends Thread implements Context
 {
-	private static final int FPS = 30;//15;
+	private static final int FPS = 45;//15;
 	private static final long PTIME = (1000 * 1000 * 1000)/FPS;
 
 	private static final int MASK_M = 15;
@@ -70,7 +70,7 @@ public class Client extends Thread implements Context
 		renderManager.follow(player);
 		renderManager.addSprite(player.getSprite());
 
-		for(int i=0; i<1; i++)
+		for(int i=0; i<10; i++)
 		{
 			EntityAnimal animal = new EntityAnimal();
 			animal.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
@@ -78,7 +78,7 @@ public class Client extends Thread implements Context
 			renderManager.addSprite(animal.getSprite());
 		}
 
-		for(int i=0; i<1; i++)
+		for(int i=0; i<10; i++)
 		{
 			EntityCat cat = new EntityCat();
 			cat.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
@@ -86,7 +86,7 @@ public class Client extends Thread implements Context
 			renderManager.addSprite(cat.getSprite());
 		}
 
-		for(int i=0; i<1; i++)
+		for(int i=0; i<10; i++)
 		{
 			EntityBat bat = new EntityBat();
 			bat.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
@@ -100,6 +100,14 @@ public class Client extends Thread implements Context
 			zombie.setPos((int) (Math.random()*25*16), (int) (Math.random()*25*16));
 			entityManager.addEntity(zombie);
 			renderManager.addSprite(zombie.getSprite());
+		}
+
+		for(int i=0; i<10; i++)
+		{
+			EntityDog dog = new EntityDog();
+			dog.setPos((int) (Math.random()*25*16), (int) (Math.random()*25*16));
+			entityManager.addEntity(dog);
+			renderManager.addSprite(dog.getSprite());
 		}
 
 		//for(int i=0; i<10; i++)
@@ -143,6 +151,7 @@ public class Client extends Thread implements Context
 				catch(Exception e){}
 			}	
 			//startTime = System.currentTimeMillis();
+			//think();
 			cTime = System.nanoTime();
 			delta += cTime-lTime;
 			lTime = cTime;
