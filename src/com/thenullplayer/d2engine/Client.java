@@ -73,7 +73,7 @@ public class Client extends Thread implements Context
 		for(int i=0; i<10; i++)
 		{
 			EntityAnimal animal = new EntityAnimal();
-			animal.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
+			animal.setPos((int) (Math.random()*25*16), (int) (Math.random()*-25*16)); // 200,-150
 			entityManager.addEntity(animal);
 			renderManager.addSprite(animal.getSprite());
 		}
@@ -81,7 +81,7 @@ public class Client extends Thread implements Context
 		for(int i=0; i<10; i++)
 		{
 			EntityCat cat = new EntityCat();
-			cat.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
+			cat.setPos((int) (Math.random()*25*16), (int) (Math.random()*-25*16));
 			entityManager.addEntity(cat);
 			renderManager.addSprite(cat.getSprite());
 		}
@@ -89,15 +89,23 @@ public class Client extends Thread implements Context
 		for(int i=0; i<10; i++)
 		{
 			EntityBat bat = new EntityBat();
-			bat.setPos((int) (Math.random()*200), (int) (Math.random()*-150));
+			bat.setPos((int) (Math.random()*25*16), (int) (Math.random()*-25*16));
 			entityManager.addEntity(bat);
 			renderManager.addSprite(bat.getSprite());
 		}
 
 		for(int i=0; i<10; i++)
 		{
+			EntityGhost ghost = new EntityGhost();
+			ghost.setPos((int) (Math.random()*25*16), (int) (Math.random()*-25*16));
+			entityManager.addEntity(ghost);
+			renderManager.addSprite(ghost.getSprite());
+		}
+
+		for(int i=0; i<10; i++)
+		{
 			EntityZombie zombie = new EntityZombie();
-			zombie.setPos((int) (Math.random()*25*16), (int) (Math.random()*25*16));
+			zombie.setPos((int) (Math.random()*25*16), (int) (Math.random()*-25*16));
 			entityManager.addEntity(zombie);
 			renderManager.addSprite(zombie.getSprite());
 		}
@@ -105,9 +113,17 @@ public class Client extends Thread implements Context
 		for(int i=0; i<10; i++)
 		{
 			EntityDog dog = new EntityDog();
-			dog.setPos((int) (Math.random()*25*16), (int) (Math.random()*25*16));
+			dog.setPos((int) (Math.random()*25*16), (int) (Math.random()*-25*16));
 			entityManager.addEntity(dog);
 			renderManager.addSprite(dog.getSprite());
+		}
+
+		for(int i=0; i<5; i++)
+		{
+			EntityMouse mouse = new EntityMouse();
+			mouse.setPos((int) (Math.random()*25*16), (int) (Math.random()*-25*16));
+			entityManager.addEntity(mouse);
+			renderManager.addSprite(mouse.getSprite());
 		}
 
 		//for(int i=0; i<10; i++)

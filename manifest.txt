@@ -1,6 +1,7 @@
 src/com/thenullplayer/d2engine/Main.java
 src/com/thenullplayer/d2engine/Context.java
 src/com/thenullplayer/d2engine/AI.java
+src/com/thenullplayer/d2engine/AIFloat.java
 src/com/thenullplayer/d2engine/AIFly.java
 src/com/thenullplayer/d2engine/AIWander.java
 src/com/thenullplayer/d2engine/Point.java
@@ -12,7 +13,9 @@ src/com/thenullplayer/d2engine/EntityAnimal.java
 src/com/thenullplayer/d2engine/EntityBat.java
 src/com/thenullplayer/d2engine/EntityCat.java
 src/com/thenullplayer/d2engine/EntityDog.java
+src/com/thenullplayer/d2engine/EntityMouse.java
 src/com/thenullplayer/d2engine/EntityMonster.java
+src/com/thenullplayer/d2engine/EntityGhost.java
 src/com/thenullplayer/d2engine/EntityZombie.java
 src/com/thenullplayer/d2engine/EntityPlayer.java
 src/com/thenullplayer/d2engine/Song.java
